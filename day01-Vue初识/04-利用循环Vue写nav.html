@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./tree.css">
+</head>
+
+<body>
+    <div class="nav">
+        <!--遍历数组 v-for="(item,index) in navs" -->
+        <li class="items" v-for="(item,index) in navs" :key="item.id"><a href="#">{{item.text}}</a></li>
+
+        <!--遍历对象 v-for="(val,name) in obj"  {{name}}:{{val}} -->
+        <!-- <li class="items" v-for="(val,name) in obj"><a href="#">{{name}}:{{val}}</a></li> -->
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    let ve = new Vue({
+        el: ".nav",
+        data: {
+            obj: {
+                name: "hk",
+                age: 22
+            },
+            navs: [{
+                text: "新闻",
+                id: 1
+            }, {
+                text: "hao123",
+                id: 2
+            }, {
+                text: "地图",
+                id: 3
+            }, {
+                text: "视频",
+                id: 4
+            }, {
+                text: "贴吧",
+                id: 5
+            }, {
+                text: "学术",
+                id: 6
+            }, {
+                text: "更多",
+                id: 7
+            }]
+        }
+    })
+</script>
+
+</html>

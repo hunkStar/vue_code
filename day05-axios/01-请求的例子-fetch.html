@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body></body>
+<script>
+    // 1、通过原始方法发送请求
+    /* let xml = new XMLHttpRequest();
+    xml.open("get","https://apimusic.linweiqin.com/song/url?id=421423808");
+    xml.onreadystatechange = function(res){
+        if(xml.status === 200 && xml.readyState === 4){
+            console.log(res);
+        }
+    }
+    xml.send(); */
+
+
+    // 2、ajax形式 回调地狱
+    /* $.ajax({
+      url: "",
+      success: function (res) {
+        $.ajax({
+          url: "",
+          success: function (res) {
+            $.ajax({
+              url: "",
+              success: function (res) {
+                $.ajax({
+                  url: "",
+                  success: function (res) {},
+                  fail: function (err) {},
+                });
+              },
+              fail: function (err) {},
+            });
+          },
+          fail: function (err) {},
+        });
+      },
+      fail: function (err) {},
+    }); */
+
+
+    // 3、使用  Promise 对异步行为进行封装
+    /* new Promise(function(resolve,reject){
+        let xml = new XMLHttpRequest();
+        xml.open("get","https://apimusic.linweiqin.com/song/url?id=421423808");
+        xml.onreadystatechange = function(res){
+            if(xml.status === 200 && xml.readyState === 4){
+                console.log(res);
+                resolve(res);
+            }
+        }
+        xml.send();
+    }).then(res=>{
+        console.log(res);
+    }); */
+
+
+    // 4、使用async await同步发送请求
+    /* async function  fetch() {
+       let res = await new Promise(function (resolve, reject) {
+        let xml = new XMLHttpRequest();
+        xml.open("get", "https://apimusic.linweiqin.com/song/url?id=421423808");
+        xml.onreadystatechange = function (res) {
+          if (xml.status === 200 && xml.readyState === 4) {
+            // console.log(res);
+            resolve(res);
+          }
+        };
+        xml.send();
+      });
+      console.log(res);
+    }
+    fetch(); */
+
+
+    // 5、同步代码 => 解决回调地狱的问题
+    async function fetch(url) {
+        let res = await new Promise(function(resolve, reject) {
+            let xml = new XMLHttpRequest();
+            xml.open("get", url);
+            xml.onreadystatechange = function(res) {
+                if (xml.status === 200 && xml.readyState === 4) {
+                    // console.log(res);
+                    resolve(res);
+                }
+            };
+            xml.send();
+        });
+        console.log(res);
+    }
+    fetch("https://apimusic.linweiqin.com/song/url?id=421423808");
+</script>
+
+</html>

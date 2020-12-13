@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+      一、具名 slot (具名插槽)
+
+      给 slot 标签 设置一个 name 属性。这时 这个 slot 标签就叫做 具名slot便签
+      （给一个茅坑加个名字，那么这个茅坑就叫做有名字的茅坑）
+
+      1. slot 在一个组件内是可以使用多次的
+
+      2. 给 slot 取了名字之后，slot 内容想要渲染在哪个 slot 里面的话，就需要设置 slot 属性。属性的值为某个 slot 的名字。
+        slot 有一个默认的名字，就叫做 default
+        <slot></slot>  ===  <slot name="default"></slot>
+     -->
+
+    <div id="app">
+        <hello>
+            <p slot="top">我的天，我不帅吗？</p>
+
+            <button>我是一个有默认名字的slot</button>
+        </hello>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script>
+        Vue.component("hello", {
+            template: `
+          <div>
+            <slot name="top"></slot>
+
+            <h1>Hello</h1>
+
+            <slot name="bottom"></slot>
+
+            <hr />
+            <slot name="default"></slot>
+          </div>
+        `,
+        });
+
+        var vm = new Vue({
+            el: "#app",
+        });
+    </script>
+</body>
+
+</html>

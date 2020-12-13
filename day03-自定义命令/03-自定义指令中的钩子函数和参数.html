@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<!-- 
+自定义指令中的钩子函数：
+1、bind：只调用一次，指令第一次绑定到元素时调用。在这里可以进行一次性的初始化设置。
+2、inserted：被绑定元素插入父节点时调用 (仅保证父节点存在，但不一定已被插入文档中)。
+3、update：所在组件的 VNode（虚拟 DOM）更新时调用，但是可能发生在其子 VNode 更新之前。
+   指令的值可能发生了改变，也可能没有。但是你可以通过比较更新前后的值来忽略不必要的模板更新。
+4、componentUpdated：指令所在组件的 VNode 及其子 VNode 全部更新后调用。
+5、unbind：只调用一次，指令与元素解绑时调用。
+-->
+
+<body>
+    <div id="wrap">
+        <div class="hook-demo" v-demo:foo.a.b="message"></div>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    Vue.directive("demo", {
+        bind: function(el, binding, vnode, oldVnode) {
+            // console.log(el);
+            // console.log(binding);
+            // console.log(vnode);
+            // console.log(oldVnode);
+
+            var str = JSON.stringify;
+            el.innerHTML = "name(指令名): " + str(binding.name) + "<br>" +
+                "value(指令的绑定值): " + str(binding.value) + "<br>" +
+                "expression(指令表达式): " + str(binding.expression) + "<br>" +
+                "argument(传给指令的参数): " + str(binding.arg) + "<br>" +
+                "modifiers(包含的修饰符有): " + str(binding.modifiers) + "<br>" +
+                "vnode keys(虚拟节点有): " + Object.keys(vnode).join(", ");
+        },
+
+    });
+
+    let ve = new Vue({
+        el: "#wrap",
+        data: {
+            message: "(*^_^*)"
+        }
+    })
+</script>
+
+</html>

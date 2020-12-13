@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+      v-bind 指令：将数据绑定到元素的属性上，比如 title、id、class、style
+
+      语法：
+        v-bind:xxxx="yyyy"
+          xxxx - 属性名
+          yyyy - 数据
+
+        v-bind: 可以简写成 :     :xxxx="yyyy"
+     -->
+    <div id="app">
+        <p v-bind:title="str">我的天，吃辣条真爽</p>
+
+        <p :title="str">我的天，吃辣条真爽</p>
+    </div>
+
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+
+            data: {
+                str: "没错",
+            },
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+      一、$attrs 实例属性
+      $attrs 可以获取到组件接收到的非prop的特性。是一个对象 {key1: value1, key2: value2}
+
+      二、$props 实例属性
+      $props 可以获取到组件接收到的 prop 数据，是一个对象 {key1: value1, key2: value2}
+     -->
+    <div id="app">
+        <hello id="box" title="hello" name="zhagnsan" :age="18" class="box" style="color: red;"></hello>
+    </div>
+
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script>
+        Vue.component("hello", {
+            props: {
+                name: String,
+                age: Number,
+            },
+            template: `<div>hello</div>`,
+
+            created() {
+                console.log(this.$attrs);
+                console.log(this.$props);
+            },
+        });
+
+        var vm = new Vue({
+            el: "#app",
+        });
+    </script>
+</body>
+
+</html>

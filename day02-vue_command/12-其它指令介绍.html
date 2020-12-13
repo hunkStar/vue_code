@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <h1>{{msg}}</h1>
+
+        <!-- v-text 渲染文本 ==》innerText-->
+        <h1 v-text="msg"></h1>
+
+        <!-- v-html 渲染html，读取元素标签 ==》innerHTML-->
+        <h1 v-html="msg_html"></h1>
+
+        <!-- v-pre 跳过模板编译过程 -->
+        <h1 v-pre>{{msg}}</h1>
+
+        <!-- v-once 只编译一次 后面如果数据发生变化 不用再次编译 -->
+        <h1 v-once>{{msg}}</h1>
+
+        <button @click="hanleClick">改变msg值</button>
+
+        <!-- v-cloak
+        vue 页面闪烁问题
+        现象描述：有时会在页面上出现插值表达式的语句，例如 {{ msg }} 。然后过一小会就没了
+        问题解释：vue 解析页面需要时间
+        解决方案：
+
+          一、不使用 插值表达式语法，改用 v-text 。
+          二、推荐 使用 v-cloak 这个指令
+
+            1. 将 v-cloak 写在挂载点元素上，它没有参数也没有表达式
+            2. 设置 一个全局 css 属性选择器样式。样式代码如下
+              [v-cloak] {
+                display: none
+              }
+
+            v-cloak 的特性：在vue实例化并且解析完成之后会自动删除掉这个属性
+     -->
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    // 为了演示v-cloak效果，做个延迟处理
+    setTimeout(() => {
+        let vm = new Vue({
+            el: "#app",
+            data: {
+                msg: "(*^_^*)",
+                msg_html: "<span style='color:red'>红色</span>"
+            },
+            methods: {
+                hanleClick: function() {
+                    this.msg = "😀";
+                }
+            },
+        })
+    }, 1000)
+</script>
+
+</html>

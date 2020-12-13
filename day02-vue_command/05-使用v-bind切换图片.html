@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #img {
+            height: 300px;
+            width: 400px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 原生js操作 -->
+    <!-- <button id="changeBtn">切换图片</button>
+    <img id="img" src="./images/1.jpeg" alt="">
+    <script>
+        document.getElementById("changeBtn").addEventListener("click", function() {
+            document.getElementById("img").setAttribute("src", "./images/2.jpeg");
+        });
+    </script> -->
+
+
+    <!-- vue操作 -->
+    <div class="wrap">
+        <button @click="changeImg">切换图片</button>
+        <!-- v-bind:attribute -->
+        <!-- <img id="img" :src="img_src" alt=""> -->
+
+        <!-- v-bind:缩写 : -->
+        <!-- <img id="img" :src="img_src" alt=""> -->
+
+        <!-- 可以使用动态参数 -->
+        <img id="img" :[src_str]="img_src" alt="">
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    let ve = new Vue({
+        el: ".wrap",
+        data: {
+            msg: "(*^_^*)",
+            img_src: "./images/1.jpeg",
+            src_str: "src",
+            flag: true
+        },
+        methods: {
+            changeImg: function() {
+                // 通知 wachter => 更新 dom
+                if (this.flag == true) {
+                    this.img_src = "./images/2.jpeg";
+                    this.flag = false;
+                } else {
+                    this.img_src = "./images/1.jpeg";
+                    this.flag = true;
+                }
+            }
+        }
+    })
+</script>
+
+</html>

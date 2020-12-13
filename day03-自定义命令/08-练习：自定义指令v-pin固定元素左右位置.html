@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .msg {
+            border: 1px solid red;
+            width: 100px;
+            height: 50px;
+        }
+        
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap" v-cloak>
+        <div v-if="bool">
+            <div v-position:[position[0]]="100" class="msg">{{msg}}</div>
+            <!-- position[0]接受的是vue实例中data的position里的数组元素 -->
+        </div>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    Vue.directive("position", {
+        bind: function(el, binding, vnode) {
+            el.style.position = "fixed";
+            el.style[binding.arg] = binding.value + "px";
+            // binding.arg表示传给指令的参数，即v-position:后面的参数要传给el.style
+        },
+    });
+
+    let ve = new Vue({
+        el: "#wrap",
+        data: {
+            bool: true,
+            msg: "(*^_^*)",
+            position: ["left", "right", "top", "bottom"]
+        }
+    });
+</script>
+
+</html>

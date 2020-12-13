@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="css/todos.css">
+</head>
+
+<body>
+    <!-- 
+      1. 在“原始版”中，有下面代码（通过v-model实现勾选的done、doing操作，这是不推荐的）
+      <li v-for="(item, index) in todoList" :key="item.id">
+        <input type="checkbox" v-model="item.done" />
+        <p>{{ item.name }}</p>
+        <a href="javascript:;" @click="delTodo(item.id)">-</a>
+      </li>
+
+      这段代码中 v-model 不推荐这样去用。
+      原因：todoList 是一个 computed 数据。v-model是可以双向改变数据的，但是计算属性是不允许修改的
+      问题：为什么计算属性不允许修改的情况下，这里还能好用呢
+      答案：因为数组是引用数组类型。    todoList 与 todos 有关联
+          普通数组使用 filter 得到的是一个全新的数组
+          数组对象使用 filter 得到的也是一个全新的数组，但是数组中对象是引用的
+
+
+       2. 双击某个todo能够进行修改操作
+        (1).点击时要出现 input 框，并且 p 标签不见
+          × 思路一：提供一个 showInput 的 data 数据，用来控制 input 与 p 标签的显示隐藏
+                有一个不好的现象：点击任何一个，发现所有的 input 都显示了
+                现象的解释: v-for 循环中通过一个 showInput 数据去控制导致的。
+                解决方式：换思路重做
+          √ 思路二：给 todos 中的每一项添加一个属性，通过这个属性来控制
+                todos = [{id: 1, name: 'xxx', done: false, isEdit: false}]
+          √√ 思路三：提供一个 showInputIds 的 data 数据
+                点击那个 todo 的时候，将这个 todo 的 id 给添加到 showInputIds 中
+                然后页面中判断即可。
+          
+     -->
+
+    <div id="app" v-cloak>
+        <header>
+            <section>
+                <form @submit.prevent="addTodo">
+                    <label for="title">ToDoList</label>
+                    <input type="text" id="title" name="title" placeholder="添加ToDo" required="required" autocomplete="off" v-model="title" />
+                </form>
+            </section>
+        </header>
+        <section>
+            <h2>正在进行 <span>{{ todoList.length }}</span></h2>
+            <ol class="demo-box">
+                <li v-for="item in todoList" :key="item.id">
+                    <input type="checkbox" @change="changeTodo(item.id, true)" />
+
+                    <p v-show="item.id!== editId" @dblclick="showEdit(item.id, item.name)">{{ item.name }}</p>
+
+                    <p v-show="item.id === editId">
+                        <input type="text" v-model="editValue" :ref="`editInput-${item.id}`" @keyup.enter="hideEdit(item.id)" @blur="hideEdit(item.id)" />
+                    </p>
+
+                    <a href="javascript:;" @click="delTodo(item.id)">-</a>
+                </li>
+            </ol>
+
+            <h2>已经完成 <span>{{ doneList.length }}</span></h2>
+            <ul>
+                <li v-for="item in doneList" :key="item.id">
+                    <input type="checkbox" @change="changeTodo(item.id, false)" checked />
+                    <p>{{ item.name }}</p>
+                    <a href="javascript:;" @click="delTodo(item.id)">-</a>
+                </li>
+            </ul>
+        </section>
+        <footer>
+            Copyright © 2014 todolist.cn <a href="javascript:;" @click="delAll">clear</a>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+
+            data: {
+                todos: localStorage.getItem("todos") ? JSON.parse(localStorage.getItem("todos")) : [],
+                title: "",
+                editValue: "",
+                // 提供一个 editId 用于存储当前处于编辑状态的 todo 项
+                editId: null,
+            },
+
+            computed: {
+                todoList() {
+                    return this.todos.filter((item) => !item.done);
+                },
+
+                doneList() {
+                    return this.todos.filter((item) => item.done);
+                },
+            },
+
+            watch: {
+                // todos是一个对象，要进行深度监听才可以
+                todos: {
+                    handler() {
+                        this.saveTodo();
+                    },
+                    deep: true,
+                },
+            },
+
+            methods: {
+                saveTodo() {
+                    localStorage.setItem("todos", JSON.stringify(this.todos));
+                },
+
+                addTodo() {
+                    this.todos.push({
+                        id: new Date().getTime(),
+                        name: this.title,
+                        done: false,
+                    });
+
+                    this.title = "";
+                },
+
+                delTodo(id) {
+                    let index = this.todos.findIndex((item) => item.id === id);
+
+                    this.todos.splice(index, 1);
+                },
+
+
+                // 修改 某个 todo 的状态
+                // @param {number} id 要修改的 todo 的id
+                // @param {boolean} status 要修改成的状态
+
+                changeTodo(id, status) {
+                    // 1. 根据id找下标
+                    let index = this.todos.findIndex((item) => item.id === id);
+                    // 2. 根据下标去修改
+                    this.todos[index].done = status;
+                },
+
+                // 显示编辑的输入框
+                showEdit(id, value) {
+                    this.editId = id;
+                    this.editValue = value;
+
+                    // vue 中通过 $refs 实例属性 去获取元素的DOM对象
+                    //  1. 先通过 ref 属性给元素做标记    <input ref="editInput" />
+                    //  2. 通过 $refs.xxx 获取DOM对象 xxx 就是第一步中设置的 ref 的值
+                    //        this.$refs.editInput
+                    // 注意 ，ref 使用在循环的时候，得到的将是一个数组形式
+
+                    this.$nextTick(function() {
+                        // 让显示出来的输入框直接获取焦点:dom对象.focus()
+                        // 让显示出来的输入框直接获取焦点:dom对象.select()
+                        this.$refs[`editInput-${id}`][0].focus();
+                        this.$refs[`editInput-${id}`][0].select();
+                    });
+                },
+
+
+                // 隐藏编辑的输入框 并保存修改的结果
+                hideEdit(id) {
+                    // 根据id获取 todos 中对应项的下标
+                    let index = this.todos.findIndex((item) => item.id === id);
+                    this.todos[index].name = this.editValue;
+
+                    this.editId = null;
+                },
+
+                delAll() {
+                    this.todos = [];
+                },
+            },
+        });
+    </script>
+</body>
+
+</html>

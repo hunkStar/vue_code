@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<!-- 同名钩子函数将合并为一个数组，因此都将被调用。
+另外，混入对象的钩子将在组件自身钩子**之前**调用。 -->
+
+<body>
+    <div id="app"></div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+<script>
+    let mixData = {
+        created() {
+            console.log('我是混入的生命周期');
+        },
+        data: function() {
+            return {
+                message: "😀",
+                name: "jack"
+            }
+        }
+    }
+
+    let ve = new Vue({
+        el: "#app",
+        data: {
+            message: "哈哈哈哈哈",
+            name: "老梁"
+        },
+        mixins: [mixData],
+        created() {
+            console.log('组件钩子被调用');
+            console.log(this.$data);
+        }
+    })
+</script>
+
+</html>

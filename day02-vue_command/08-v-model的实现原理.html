@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 头部开始 -->
+        <div class="app-header">
+            <h1>手机号登录/注册</h1>
+        </div>
+
+        <!-- 中间部分开始 -->
+        <div class="app-mid">
+            <div class="app-mid-top">
+                <span>+86</span> <input type="text" :value="phone" @input="phoneChange" />
+            </div>
+            <div class="app-mid-bottom">
+                <!-- v-bind 绑定 input 中的值，然后在v-on中的input事件，实时监测数据动态处理 -->
+                <input type="text" :value="code" @input="codeChange" /><span>发送验证码</span>
+            </div>
+        </div>
+
+        <!-- 底部部分开始 -->
+        <div class="app-bottom">
+            <button @click="confirmBtn">确定</button>
+        </div>
+
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    // v-model的实现原理就是把v-bind和v-on结合在一起使用，从而实现数据双向绑定
+    // 先对v-bind 绑定属性，然后用v-on事件，通过input事件对象中e.target.value的实时监测数据改变
+    let ve = new Vue({
+        el: "#app",
+        data: {
+            phone: "",
+            code: ""
+        },
+        methods: {
+            codeChange: function(e) {
+                // console.log(e);
+                this.code = e.target.value; //实现数据双向绑定
+            },
+            phoneChange: function(e) {
+                this.phone = e.target.value;
+            },
+            confirmBtn: function() {
+                if (!!this.phone && !!this.code) {
+                    console.log("登录成功");
+                } else {
+                    alert('手机号或验证码未填！')
+                }
+            }
+        }
+
+    })
+</script>
+
+</html>

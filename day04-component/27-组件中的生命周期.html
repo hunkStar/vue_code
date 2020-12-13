@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <button @click="update">更新</button>
+        <button @click="destoryCmp">销毁组件</button>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        //创建
+        beforeCreate() {
+            console.log("beforeCreate 元素", this.$el);
+            console.log(" beforeCreate数据", this.$data);
+            console.log("beforeCreate方法", this.handleClick);
+        },
+        created() {
+            console.log("created 元素", this.$el);
+            console.log(" created数据", this.$data);
+            console.log("created方法", this.handleClick);
+        },
+
+        // 挂载
+        mounted() {
+            console.log("mounted 元素", this.$el);
+            console.log(" mounted数据", this.$data);
+            console.log("mounted方法", this.handleClick);
+        },
+        beforeMount() {
+            console.log("beforeMount 元素", this.$el);
+            console.log(" beforeMount数据", this.$data);
+            console.log("beforeMount方法", this.handleClick);
+        },
+
+        // 更新
+        beforeUpdate() {
+            console.log("组件更新前");
+        },
+        updated() {
+            console.log("组件更新了");
+        },
+
+        // 销毁
+        beforeDestroy() {
+            console.log("组件销毁前");
+        },
+        destroyed() {
+            console.log("组件销毁拉");
+        },
+
+        el: "#app",
+        data: {
+            msg: "😀",
+        },
+        methods: {
+            destoryCmp: function() {
+                this.$destroy()
+            },
+            update: function() {
+                this.msg = "(*^_^*)";
+            },
+            handleClick: function() {
+                console.log(123);
+            },
+        },
+    });
+</script>
+
+</html>

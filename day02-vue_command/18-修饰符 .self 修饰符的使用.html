@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="css/app.css">
+</head>
+
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <!-- .self 修饰符 事件只在本身触发的时候才触发,其他元素触发自己的时候不会触发 -->
+        <!-- 如果给父元素添加.self，点击子元素的时候不能进行冒泡 -->
+        <div @click.self="handleParentClick">
+            <div @click="handleChildClick">
+                <h1>点击子节点</h1>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el: "#app",
+        data: {
+            msg: "(*^_^*)",
+        },
+        methods: {
+            handleParentClick: function() {
+                console.log("点击了handleParentClick");
+            },
+            handleChildClick: function() {
+                console.log("点击了handleChildClick");
+            },
+        },
+    });
+</script>
+
+</html>

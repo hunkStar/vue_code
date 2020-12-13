@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <router-view></router-view>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-router@3.1.6/dist/vue-router.min.js"></script>
+    <script>
+        const router = new VueRouter({
+            routes: [
+                // 一级路由：影片详情
+                {
+                    path: "/film/:filmId",
+                    component: {
+                        template: `<div><h1>影片详情</h1></div>`,
+                    },
+                },
+                // 一级路由：影院详情
+                {
+                    path: "/cinema/:cinemaId/film",
+                    component: {
+                        template: ` <div><h1>影院详情</h1></div> `,
+                    },
+                },
+                // 一级路由：登录页面
+                {
+                    path: "/login",
+                    component: {
+                        template: ` <div><h1>登录页面</h1></div> `,
+                    },
+                },
+
+                // 承载了电影列表、影院列表、个人中心的一级路由
+                {
+                    path: "/",
+                    component: {
+                        template: `
+                            <div>
+                              <router-view></router-view>
+                              <div>
+                                <router-link to="/films">电影列表</router-link>
+                                <router-link to="/cinemas">影院列表</router-link>
+                                <router-link to="/center">个人中心</router-link>
+                              </div>
+                            </div>
+                        `,
+                    },
+                    children: [
+                        // 电影列表
+                        {
+                            path: "films",
+                            component: {
+                                template: `<div><h1>电影列表</h1></div>`,
+                            },
+                        },
+
+                        // 影院列表
+                        {
+                            path: "cinemas",
+                            component: {
+                                template: ` <div><h1>影院列表</h1></div> `,
+                            },
+                        },
+
+                        // 个人中心
+                        {
+                            path: "center",
+                            component: {
+                                template: `  <div><h1>个人中心</h1></div> `,
+                            },
+                        },
+                    ],
+                },
+            ],
+        });
+
+        var vm = new Vue({
+            el: "#app",
+            router,
+        });
+    </script>
+</body>
+
+</html>

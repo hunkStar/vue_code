@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <div class="top">
+            <input type="text" v-model="inputVal" /><button @click="addTodo">
+          添加
+        </button>
+        </div>
+        <div class="content">
+            <ul>
+                <li v-for="(item,index) in todos">
+                    {{item.text}}<button @click="deleteTodo(index)">删除</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el: "#app",
+        data: {
+            inputVal: "",
+            todos: [{
+                id: 1,
+                text: "吃饭"
+            }, {
+                id: 2,
+                text: "睡觉"
+            }, {
+                id: 3,
+                text: "打豆豆"
+            }, ],
+        },
+        methods: {
+            deleteTodo: function(index) {
+                this.todos.splice(index, 1);
+            },
+
+            addTodo: function() {
+                let inputVal = this.inputVal;
+                if (!inputVal) {
+                    alert("输入不能为空！");
+                    return false;
+                }
+                // 数组下标形式修改 值 vue 做不到响应的的
+                // this.todos[this.todos.length] = {
+                //     id: Date.now(),
+                //     text:inputVal
+                // }
+
+                this.todos.push({
+                    id: Date.now(),
+                    text: inputVal,
+                });
+            },
+        },
+    });
+</script>
+
+</html>

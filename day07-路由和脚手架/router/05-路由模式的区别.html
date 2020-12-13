@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<!-- 
+    hash模式与history模式的区别
+ 1. url地址表现不同，hash模式有#号，history模式没有
+ 2. 实现原理不同，
+      1. hash模式是通过改变hash并监听hashchange事件
+      2. history模式是基于最新的HTML5里面history相关的api进行的一些操作
+              history.pushstate()
+              history.replacestate()
+              window.onpopstate       监听浏览器的前进与后退的行为
+ 3. 兼容性不同
+      1. hash模式都可以兼容
+      2. history模式只能兼容到IE10及以上
+      ps: vue的兼容性，是只能兼容到ie8
+ 4. history模式会出现404找不到页面这种问题。需要后端配置相关的处理才行。而hash模式没有这个问题
+ 5. history模式时，重定向会有些问题，需要页面的名字叫index.html才行
+
+ 你之前的项目用的什么路由模式，为什么要选择这个模式
+ 可以说:我就是用默认的hash模式,老板也没有要求用history模式，也没有刻意去做。
+ -->
+
+<body>
+    <div id="app">
+        <!-- 通过 router-link 提供一些超链接来实现路由的跳转功能 -->
+        <ul>
+            <li>
+                <router-link to="/home">home</router-link>
+            </li>
+            <li>
+                <router-link to="/list">list</router-link>
+            </li>
+            <li>
+                <router-link to="/about">about</router-link>
+            </li>
+        </ul>
+
+        <hr />
+
+        <router-view></router-view>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-router@3.1.6/dist/vue-router.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.min.js"></script>
+
+    <script src="./views/home.js"></script>
+    <script src="./views/list.js"></script>
+    <script src="./views/about.js"></script>
+    <script>
+        // 使用路由之后，页面渲染不出来，主要有两种原因
+        // 1. 页面中没有提供 router-view (路由视图、路由坑)
+        // 2. 当前的url地址没有与之匹配的路由规则去处理
+
+        // 实例化路由的实例对象
+        const router = new VueRouter({
+            // 路由模式，hash(默认)、history
+            mode: "history",
+            // 路由规则
+            routes: [{
+                path: "/home",
+                component: home,
+            }, {
+                path: "/list",
+                component: list,
+            }, {
+                path: "/about",
+                component: about,
+            }, ],
+        });
+
+        // 在 new Vue() 时，配置 router 选项，选项值就是 路由实例对象
+        var vm = new Vue({
+            el: "#app",
+            router,
+        });
+    </script>
+</body>
+
+</html>

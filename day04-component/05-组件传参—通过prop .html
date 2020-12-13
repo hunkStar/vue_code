@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+        .parent {
+            display: flex;
+            width: 500px;
+            height: 500px;
+            background: pink;
+        }
+        
+        .son {
+            width: 100px;
+            height: 100px;
+            background: royalblue;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <!-- 
+      一、
+        之前我们要考虑数据应该放在 data 中还是 computed 中
+
+        学了组件之后，组件的数据
+        要考虑应该是 data 还是 props 还是 computed
+
+      二、props 选项
+        将组件看成是一个函数，props 就是这个函数接收到的参数集合
+
+        prop 就是 props 中的具体一个参数
+
+        function hello(props) { }
+        hello({name: 张三, age: 18, sex: '男'})
+
+        props => {name: 张三, age: 18, sex: '男'}   形参
+        name  - prop
+        age   - prop
+        sex   - prop
+
+        1. 组件定义时如何设置形参，就是设置 props 选项
+          Vue.component('hello', {
+            // 最简单的方式，写成数组形式，数组中每一项就是一个 prop
+            // 注意：调用时不传递是没问题的
+            // 定义的每一个 prop 。可以直接通过实例对象去访问到，就向访问 data 数据和 computed 数据那样
+            props: ['name', 'age', 'sex'],
+
+            template: `
+              <div>Hello {{ name }} - {{ age }}</div>
+            `,
+
+            methods: {
+              hi() {
+                console.log(this.name)
+              }
+            }
+          })
+        2. 调用组件时，如何传递参数，就是在组件的标签上写属性即可
+          <hello name="张三" age="18"></hello>
+
+          hello 组件中的 name 得到的是 "张三"
+          hello 组件中的 age 得到的是 "18"
+          hello 组件中的 sex 得到的是 undefined
+        
+        
+
+     -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script>
+        Vue.component("hello", {
+            props: ["name", "age", "sex"],
+
+            template: `
+          <div>
+            <p>hello, 我的名字是 {{ name }} </p>
+            <p>hello, 我的年龄是 {{ age }} </p>
+            <p>hello, 我的性别是 {{ sex }} </p>
+          </div>
+        `,
+        });
+
+        var vm = new Vue({
+            el: "#app",
+
+            template: `
+          <div id="app">
+            <hello name="张三" age="18"></hello>
+
+            <hello name="李四" age="18" sex="男"></hello>
+
+            <hello name="王五" age="22" sex="女"></hello>
+          </div>
+        `,
+        });
+    </script>
+</body>
+
+</html>

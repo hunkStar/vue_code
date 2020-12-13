@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <!-- .prevent 修饰符 阻止默认行为 -->
+        <a href="http://www.baidu.com" @click.prevent="handlePrevent">百度</a>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el: "#app",
+        data: {
+            msg: "(*^_^*)",
+        },
+        methods: {
+            handlePrevent: function(e) {
+                // e.preventDefault();
+            }
+        },
+    });
+</script>
+
+</html>

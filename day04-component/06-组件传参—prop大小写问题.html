@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 1. 通过属性来传 短横线 -->
+    <div id="app">
+        <com-param name="(*^_^*)"></com-param>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+
+<!-- 2. 通过script的id属性 -->
+<!-- <script type="text/x-template" id="appTmp">
+    <div id="app">
+        <comParam name="张三"></comParam>
+    </div>
+</script> -->
+
+<script>
+    Vue.component("comParam", {
+        // 正常来说，属性中如果有短横线 => 要转成驼峰形式
+        props: {
+            name: String
+        },
+        template: `
+        <div>
+            <h1>{{name}}</h1>
+            <h1>{{name}}</h1>
+            <h1>{{name}}</h1>
+        </div>
+        `
+    });
+
+    let vm = new Vue({
+        el: "#app",
+        // template: "#appTmp",
+    });
+</script>
+
+</html>

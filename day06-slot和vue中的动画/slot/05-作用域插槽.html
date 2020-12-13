@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+      一、作用域插槽：希望 插槽内容 中使用子组件中的作用域
+
+      <div id="app">
+        <hello>
+          // xxxx 如何能够用上 hello 组件中 的 msg 数据
+          <p>我是一个插槽内容。xxxx </p>
+        </hello>
+      </div>
+
+      步骤：
+
+      1. 定义组件的slot的时候，将要在插槽内容中使用的数据，绑定在 slot标签上
+        注意，不能绑定 name 属性。因为 name 属性有特殊作用。name 属性用来做具名插槽的。
+
+        <slot :msg="msg" :age="age" ></slot>
+
+      2. 在插槽内容的标签上，设置 slot-scope 属性。属性值随便写。这个属性值就是上一个步骤中绑定出来的
+        数据的一个对象
+
+        <p slot-scope="obj">我是一个插槽内容。msg, age</p>
+        obj === { msg: "hello", age: 19 }
+
+     -->
+
+    <div id="app">
+        <hello>
+            <!-- slot-scope="xxx",xxx可以随意取名 -->
+            <!-- <p slot-scope="obj">我是一个插槽内容。{{ obj.msg }} {{ obj.age }}</p> -->
+
+            <!-- 也可以用解构赋值的方式    slot-scope="{ msg, age }"-->
+            <p slot-scope="{ msg, age }">我是一个插槽内容。{{ msg }} {{ age }}</p>
+        </hello>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script>
+        Vue.component("hello", {
+            data() {
+                return {
+                    msg: "hello",
+                    age: 19,
+                };
+            },
+            template: `
+          <div>
+            <slot :msg="msg" :age="age" ></slot>
+
+            <h1>Hello</h1>
+          </div>
+        `,
+        });
+
+        var vm = new Vue({
+            data: {
+                msg: "root",
+                age: 200
+            },
+            el: "#app",
+        });
+    </script>
+</body>
+
+</html>

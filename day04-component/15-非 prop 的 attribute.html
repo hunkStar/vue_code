@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+      一、非 prop 的 attribute  (非 prop 的特性)
+
+      在调用组件时，如果设置的属性(attribute)在这个组件中没有定义相应的prop。那么这个属性就叫做 非prop的attribute
+
+      Vue.component('hello', {
+        props: {
+          name: String,
+          age: Number
+        },
+        template: `<div>hello</div>`
+      })
+
+      <hello name="张三" age="18" id="box" title="我的天" class="box1" style="color: red"></hello>
+
+      这里 hello 组件调用时。设置的属性有：name、age、id、title、class、style
+      hello 组件中将 name、age 是规定为 prop 数据的。
+      那么 这里 id 和 title 这两个属性就叫做非prop的特性
+      注意：class 与 style 不是非prop的特性。他们两个是非常非常特殊的一个属性
+
+
+      二、非prop的attribute 的特点
+        1. 最主要的一个特点就是会继承到组件的根元素(根元素是template)上
+        2. 并且是一种替换的操作
+
+      三、class与style是非常特殊的
+        1. 他们有 非prop的attribute 的继承的特点
+        2. 但是他们不是替换的操作，而是拼接操作
+
+        用处：调用别人的组件的时候，这个组件的源代码我不能修改，这时如果要修改样式，就可以在调用时
+        设置自己的 class 或 style
+
+     -->
+    <div id="app">
+        <hello name="张三" :age="18" id="box" title="我的天啊" class="box1" style="color: red;"></hello>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script>
+        Vue.component("hello", {
+            props: {
+                name: String,
+                age: Number,
+            },
+            template: `<div id="hello" title="我的地啊" class="box2" style="fontSize:30px;color:green">hello</div>`,
+        });
+
+        var vm = new Vue({
+            el: "#app",
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .blueClass {
+            color: blue
+        }
+        
+        .bigClass {
+            font-size: 60px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!-- js的行内样式写法 -->
+        <!-- <h1 style="color:red">{{msg}}</h1>
+        <h1 class="red">{{msg1}}</h1> -->
+
+
+        <!-- 添加style   1. 对象写法 2. 数组的写法(多个对象) -->
+        <h1 v-bind:style="{color:red}">{{msg}}</h1>
+        <h1 :style="{color:red,fontSize:50+'px'}">{{msg}}</h1>
+        <h1 :style="[{background:'#eee'},{fontSize:20+'px'}]">{{msg}}</h1>
+
+        <!-- 添加类class 1. 对象写法 2. 数组写法 -->
+        <h1 :class="{blueClass:true}">{{msg1}}</h1>
+        <h1 :class="{blueClass:true,bigClass:true}">{{msg1}}</h1>
+        <h1 :class="[{blueClass:true},{bigClass:true}]">{{msg1}}</h1>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el: "#app",
+        data: {
+            msg: "(*^_^*)",
+            msg1: "😭/(ㄒoㄒ)/",
+            red: "red"
+        }
+    })
+</script>
+
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+</body>
+<script>
+    // 核心数据响应式方法
+    function defineReactive(obj, key, val) {
+        // val可能还是个对象，需要递归一下,深度监听
+        observer(val);
+
+        Object.defineProperty(obj, key, {
+            get() {
+                return val
+            },
+            set(newVal) {
+                if (newVal !== val) {
+                    val = newVal;
+
+                    // 如果改变的是个对象，还需要调用一下,深度监听
+                    observer(newVal);
+
+                    console.log('视图更新了', newVal);
+                    // 在这里已经监听到了数据的变化，后续可以做一些更新视图的操作
+                }
+            }
+        })
+    }
+
+    // 如果一个对象有多个属性，循环调用defineReactive，传入每一个值去进行监听
+    function observer(obj) {
+        // 判断obj是否是数组
+        if (Object.prototype.toString.call(obj) !== "[object Object]") {
+            return
+        }
+        Object.keys(obj).forEach(key => defineReactive(obj, key, obj[key]))
+    }
+
+    // 如果给对象增加新的属性，是监听不到变化的，那么需要用set方法传入新对象，调用defineReactive手动监听一下
+    function set(obj, key, val) {
+        defineReactive(obj, key, val);
+    }
+
+    //准备数据源
+    const data = {
+        name: '梁憨憨',
+        age: '20',
+        info: {
+            address: '北京'
+        },
+        nums: ["🍎", "🐥", "☀", "🦆"]
+    }
+    console.log(data);
+    observer(data);
+
+    //测试
+    data.name = '梁菜鸡';
+    data.age = 50;
+    data.info.address = '深圳';
+    data.nums.push("🍇")
+    set(data, "look", '有飞碟');
+
+    console.log(data);
+</script>
+
+</html>

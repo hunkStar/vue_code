@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+      一、slot （插槽）
+
+      ！！调用组件时，写在组件标签内的内容，默认是不会被渲染的
+
+      有时，我们需要在写在组件标签内的内容能够被渲染出来，这时就需要使用 slot 插槽这个功能点
+
+      二、slot 的基本使用
+
+      1. 定义组件时想好要在哪个位置去渲染 slot 内容
+      2. 在想好的位置哪里，放置一个 slot 标签 即可 <slot></slot>
+      3. slot 内容 就会自动去替换 slot 标签
+
+
+      三、slot 相关的一些话术
+
+      1. slot内容、插槽内容、插槽模板内容
+        调用组件时写在组件标签内的内容就叫做 slot 内容
+
+      2. slot标签、slot组件、slot插槽、插槽 （坑、茅坑）
+        <slot></slot>   Vue 内置的一个组件
+
+     -->
+
+    <div id="app">
+        <hello>
+            <p>我的天，我不帅吗？</p>
+        </hello>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script>
+        Vue.component("hello", {
+            template: `
+          <div>
+            
+            <h1>Hello</h1>
+
+            <slot></slot>
+          </div>
+        `,
+        });
+
+        var vm = new Vue({
+            el: "#app",
+        });
+    </script>
+</body>
+
+</html>

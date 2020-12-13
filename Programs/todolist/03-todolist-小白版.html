@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/todos小白版.css">
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="todoapp" v-cloak>
+        <header class="header">
+            <h1>todos</h1>
+            <input class="new-todo" @keyup.enter="addTodo" v-model="title" autocomplete="off" placeholder="What needs to be done?">
+        </header>
+
+        <section class="main" v-show="todos.length">
+            <input id="toggle-all" class="toggle-all" type="checkbox" @click.stop="allCheck" v-model="allChecked">
+            <label for="toggle-all">Mark all as complete</label>
+
+            <ul class="todo-list">
+                <li :class="['todo',{editing: edit_index===index}]" v-for="(item,index) in fitlerTodos" :key="item.id">
+                    <div class="view">
+                        <input class="toggle" type="checkbox" v-model="item.done">
+
+                        <label :class="{checkedTodo: item.done}" @dblclick="editTodo(index,item.title)">{{item.title}}</label>
+
+                        <button class="destroy" @click="delTodo(item.id)"></button>
+                    </div>
+                    <!-- 双击后编辑框 -->
+                    <input class="edit" type="text" :ref="`editInput-${index}`" v-model="edit_val" @keyup.enter="saveEdit(item.id)" @blur="saveEdit(item.id)">
+                </li>
+            </ul>
+
+        </section>
+
+        <footer class="footer" v-show="todos.length">
+            <span class="todo-count">
+                <strong ></strong> left {{remainNum}} 项
+            </span>
+            <ul class="filters">
+                <li><a href="#" @click="changeTab('all')" :class="{selected:activeTab==='all'}">All</a></li>
+                <li><a href="#" @click="changeTab('active')" :class="{selected:activeTab==='active'}">Active</a></li>
+                <li><a href="#" @click="changeTab('completed')" :class="{selected:activeTab==='completed'}">Completed</a></li>
+            </ul>
+            <button class="clear-completed" @click="delCheckedTodo"> Clear Completed</button>
+        </footer>
+
+        <footer class="info" v-show="todos.length">
+            <p>click this to <a href="#" @click="delAll">Clear All</a></p>
+            <p>Written by Hunk </p>
+        </footer>
+    </div>
+
+
+</body>
+<script src="node_modules/vue/dist/vue.js"></script>
+<script src="js/todos小白版.js"></script>
+
+</html>

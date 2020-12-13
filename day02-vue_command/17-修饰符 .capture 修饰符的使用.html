@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="css/app.css">
+
+</head>
+
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <!-- .capture 修饰符 让事件在捕获阶段发生,触发事件与“冒泡阶段” 相反-->
+        <div @click.capture="handleParentClick">
+            <div @click="handleChildClick">
+                <h1>点击子节点</h1>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el: "#app",
+        data: {
+            msg: "(*^_^*)",
+        },
+        methods: {
+            handleParentClick: function(e) {
+                console.log("点击了handleParentClick");
+            },
+            handleChildClick: function(e) {
+                console.log("点击了handleChildClick");
+            },
+        },
+    });
+</script>
+
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" />
+    <style>
+        .box {
+            width: 500px;
+            margin: 0 auto;
+            margin-top: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 
+      前端只要涉及到分页，就需要3个数据
+      1. pageNum    当前第几页      （前端自己定义）
+      2. pageSize   每页显示多少条  （前端自己定义）
+      3. totalPage  一共多少页      （前端定义然后通过请求后端api接口再来修改它）
+
+      思路：
+      1. totalPage 用来控制 页码的个数。使用 v-for 即可
+      2. pageNum 用来控制当前页码的高亮效果
+      3. 点击时修改 pageNum 的值即可
+      4. 上一页与下一页的处理
+      5. 上一页与下一页禁用的处理
+          在某种情况下给元素加上 disabled 这个类，要如何做，
+          只需要使用 v-bind 来绑定一个 真假值即可
+          v-bind:class="{disabled: true}"     pageNum === 1 或者 pageNum === totalPage 的时候要把disabled置为true
+          v-bind:class="{disabled: false}"   
+     -->
+
+    <div id="app">
+        <nav class="box">
+            <ul class="pagination">
+                <!-- 点击上一页数 -->
+                <li class="page-item" :class="{ disabled: pageNum === 1 }" @click="pageNum = pageNum === 1 ? 1 : pageNum - 1">
+                    <a class="page-link" href="javascript:;">Previous</a>
+                </li>
+
+                <!-- 点击页数，切换当前页  -->
+                <li class="page-item" :class="{ active: item === pageNum }" v-for="item in totalPage" @click="pageNum = item">
+                    <a class="page-link" href="javascript:;">{{ item }}</a>
+                </li>
+
+                <!-- 点击下一页数 -->
+                <li class="page-item" :class="{ disabled: pageNum === totalPage }" @click="pageNum = pageNum === totalPage ? totalPage : pageNum + 1">
+                    <a class="page-link" href="javascript:;">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+
+            data: {
+                pageNum: 1,
+                pageSize: 10,
+                totalPage: 10,
+            },
+        });
+    </script>
+</body>
+
+</html>

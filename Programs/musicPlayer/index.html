@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+    <link rel="stylesheet" href="css/player.css" />
+</head>
+
+<body>
+    <div id="app">
+        <div class="app-palyer">
+            <!--  顶部搜索栏 -->
+            <div class="app-player-searchBar">
+                <div class="title">💝i珍音乐盒💝</div>
+                <input type="text" @keyup.enter="handleSearch" v-model="keywords" placeholder="请输入歌曲名、歌手" />
+            </div>
+
+            <!-- 中间内容 -->
+            <div class="app-player-content">
+                <!-- 歌曲区 -->
+                <div class="app-player-content-left">
+                    <!-- 动态渲染歌曲列表 -->
+                    <div class="app-player-songs-list">
+                        <div v-for="(item,index) in songs" :key="item.id" class="app-player-songs-list-item">
+                            <div class="player-audio" @click.stop="playAudio(item.id,index)"></div>
+                            <div :title="item.name" class="player-name" ref="playActive">{{item.name}}</div>
+                            <div :class="['pMV',{'player-mv':item.mvid!=0}]" @click.stop="playMV(item.mvid)"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 封面、歌词区 -->
+                <div class="app-player-content-middle">
+                    <div class="middleImg">
+                        <img src="./imgs/player_bar.png" alt="" :class="['player-bar',{playing:isAudioPlaying}]" />
+                        <img class="cover" :src="coverUrl==''?'./imgs/cover.jpg':coverUrl" alt="">
+                        <!-- coverUrl==''?'./imgs/cover.jpg':coverUrl 三目运算，如果有封面路径则用传过来的，如果没有就默认 -->
+                        <img src="./imgs/disc.png" alt="" :class="['disc',{autorotate:isAudioPlaying}]" />
+                    </div>
+
+                    <div class="songsLyric">
+                        <p v-for="(item,index) in lyricArr">{{item.slice(11)}}</p>
+                    </div>
+
+                </div>
+
+                <!-- 留言区 -->
+                <div class="app-player-content-right">
+                    <!-- 动态渲染留言 -->
+                    <h5 class="comment-title">热门留言</h5>
+                    <div class="comment-list">
+                        <div class="comment-list-item" v-for="(item,index) in hotComments">
+                            <div class="imageWrapper">
+                                <img :src="item.user.avatarUrl" alt="" />
+                            </div>
+                            <div class="comment-content">
+                                <div class="nickName">{{item.user.nickname}}</div>
+                                <div class="content">{{item.content}}</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- 音乐播放器底部开始 -->
+            <div class="app-player-footer">
+                <audio @pause="handleAudioPause" @play="play" ref="audio" controls="controls" :src="songUrl" loop="loop" autoplay="autoplay"></audio>
+                <div class="video-box" :class="{hidden:!isVedioPlaying}">
+                    <div class="vedio-close" @click.stop="closeMV">X</div>
+                    <video ref="vedio" :src="mvUrl" controls="controls" autoplay="autoplay" loop="loop"></video>
+                    <div class="video-mask"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script src="./node_modules/axios/dist/axios.js"></script>
+<script src="./js/myaxios.js"></script>
+<script src="./js/music.js"></script>
+
+</html>

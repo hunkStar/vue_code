@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body></body>
+<script src="./node_modules/axios/dist/axios.js"></script>
+<script>
+    let CancelToken = axios.CancelToken;
+    let source = CancelToken.source();
+
+    axios.post(
+            "http://s.linweiqin.com/api/s/getIndexLoopimg", {}, {
+                cancelToken: source.token,
+            }
+        )
+        .then((res) => {
+            console.log(res);
+            // console.log(res.data);
+        })
+        .catch((err) => console.log(err));
+
+    source.cancel("取消请求");
+</script>
+
+</html>

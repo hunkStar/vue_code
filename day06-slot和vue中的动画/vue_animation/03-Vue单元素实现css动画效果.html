@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .bounce-enter-active {
+            animation: bounce-in 1s;
+        }
+        
+        .bounce-leave-active {
+            animation: bounce-in 1s reverse;
+        }
+        
+        @keyframes bounce-in {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(2.5);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <button @click="show=!show">显示或隐藏</button>
+        <transition name="bounce">
+            <p v-if="show">
+                响应式原理作为 Vue 的核心，使用数据劫持实现数据驱动视图。 在面试中是经常考查的知识点，也是面试加分项。 本文将会循序渐进的解析响应式原理的工作流程，主要以下面结构进行： 分析主要成员， 了解它们有助于理解流程 将流程拆分，理解其中的作用 结合以上的点， 理解整体流程 文章稍长，但部分是代码，还请耐心观看。为了方便理解原理，文中的代码会进行简化，如果可以请对照源码学习。
+            </p>
+        </transition>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+<script>
+    let ve = new Vue({
+        el: "#app",
+        data: {
+            show: false
+        }
+    })
+</script>
+
+</html>

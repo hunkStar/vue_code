@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+      别名
+        给路由规则中的path设置一个别名（外号）
+
+        /home   取名叫 /a
+        /list   取名叫 /b
+        /about  取名叫 /c
+
+        路由规则中配置 alias 配置项
+     -->
+
+    <div id="app">
+        <router-view></router-view>
+        <hr />
+
+        <ul>
+            <li>
+                <router-link to="/home">home</router-link>
+            </li>
+            <li>
+                <router-link to="/list">list</router-link>
+            </li>
+            <li>
+                <router-link to="/about">about</router-link>
+            </li>
+        </ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-router@3.1.6/dist/vue-router.min.js"></script>
+    <script src="./views/home.js"></script>
+    <script src="./views/list.js"></script>
+    <script src="./views/about.js"></script>
+    <script>
+        // 1. 定义路由页面组件(不是全局注册也不是局部注册，只是提供组件的配置选项对象即可)
+
+        // 2. 实例化路由的实例对象
+        const router = new VueRouter({
+            // 路由规则
+            routes: [{
+                path: "/",
+                redirect: "/home",
+            }, {
+                path: "/home",
+                component: home,
+                alias: "/a",
+            }, {
+                path: "/list",
+                component: list,
+                alias: "/b",
+            }, {
+                path: "/about",
+                component: about,
+                alias: "/c",
+            }, ],
+        });
+
+        // 3. 在 new Vue() 时，配置 router 选项，选项值就是 路由实例对象
+        var vm = new Vue({
+            el: "#app",
+            router,
+        });
+    </script>
+</body>
+
+</html>

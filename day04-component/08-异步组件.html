@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+
+<body>
+    <div id="app">
+        <home></home>
+        <async-comp></async-comp>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+
+<script>
+    /* 同步组件 */
+    Vue.component("home", {
+        template: `<h1>主页</h1>`
+    });
+
+    /* 异步组件 */
+    Vue.component("async-comp", function(resolve, reject) {
+        // 可以定义定时器 3s 之后触发
+        setTimeout(function() {
+            resolve({
+                template: ` <h1>异步组件的内容</h1>`
+            });
+        }, 3000);
+    });
+
+    let vm = new Vue({
+        el: "#app"
+    });
+</script>
+
+</html>

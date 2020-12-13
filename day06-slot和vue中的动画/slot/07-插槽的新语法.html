@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+      一、slot 插槽 在 Vue2.6.0 这个版本的时候，做了更新。提供了一个新的指令叫做 v-slot。
+      后续实现具名插槽与作用域插槽都使用 v-slot 来实现
+
+      二、2.6.0 版本在什么时候发布的：2019-02-04号（农历2018年过年那天）
+
+      三、v-slot语法
+
+        v-slot:xxxx=yyyy
+          - xxxx    插槽名字
+          - yyyy    作用域插槽数据
+
+        1. v-slot 必须用在 template 元素上。也就是说 插槽内容 需要通过 template 元素进行包裹
+        2. 如果插槽没有设置 name 名字，v-slot === v-slot:default
+        3. v-bind 指令有个简写 :
+           v-on 指令有个简写 @
+           v-slot 指令有个简写 #
+
+           注意，使用 简写时必须携带名字。 默认的名字需要写成 #default
+        4. 插槽只有一个的情况下，可以不使用 template 去包裹插槽内容。而是直接将 v-slot 写在组件标签上。
+
+     -->
+
+    <div id="app">
+        <helloworld2 #bottom>
+            <p>我的天</p>
+        </helloworld2>
+
+        <hr />
+        <helloworld>
+            <template #top>
+          <p>我的天</p>
+        </template>
+
+            <template #default>
+          <p>我的地</p>
+        </template>
+        </helloworld>
+
+        <hr />
+
+        <!-- 老语法的具名插槽使用 -->
+        <hello>
+            <p slot="top">我的天</p>
+
+            <p slot="bottom">我的地</p>
+        </hello>
+
+        <!-- 新语法的具名插槽使用 -->
+        <hello>
+            <template #top>
+          <p>我的天</p>
+        </template>
+
+            <template #bottom>
+          <p>我的地</p>
+        </template>
+        </hello>
+
+        <!-- 老语法的作用域插槽使用 -->
+        <world>
+            <p slot="top" slot-scope="{ msg, age }">我的天-{{ msg }} - {{ age }}</p>
+        </world>
+
+        <!-- 新语法的作用域插槽使用 -->
+        <world>
+            <template #top="obj">
+          <p>我的天-{{ obj.msg }} - {{ obj.age }}</p>
+        </template>
+        </world>
+
+        <!-- 新语法的作用域插槽使用 解构赋值-->
+        <world>
+            <template #top="{ msg, age }">
+          <p>我的天-{{ msg }} - {{ age }}</p>
+        </template>
+        </world>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script>
+        Vue.component("hello", {
+            template: `
+          <div>
+            <slot name="top"></slot>
+            <h1>hello</h1>
+            <slot name="bottom"></slot>
+          </div>
+        `,
+        });
+
+        Vue.component("world", {
+            data() {
+                return {
+                    msg: "张三",
+                    age: 18,
+                };
+            },
+            template: `
+          <div>
+            <slot name="top" :msg="msg" :age="age"></slot>
+            <h1>world</h1>
+            <slot name="bottom"></slot>
+          </div>
+        `,
+        });
+
+        Vue.component("helloworld", {
+            template: `
+          <div>
+            <slot name="top"></slot>
+            <h1>helloworld</h1>
+            <slot></slot>
+          </div>
+        `,
+        });
+
+        Vue.component("helloworld2", {
+            template: `
+          <div>
+            <h1>helloworld2</h1>
+            <slot name="bottom"></slot>
+          </div>
+        `,
+        });
+
+        var vm = new Vue({
+            el: "#app",
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 父子传值 -->
+    <div id="app">
+        <button @click="handleClick">发个朋友圈</button>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        // 组件挂载到dom上的时候
+        mounted() {
+            // $on 监听了事件 test
+            // 发布-订阅模式 => 完全解耦：将视图与数据分成两部分,亦即视图代码与业务逻辑的解耦
+            // 观察者模式 => 存在耦合性
+            this.$on("test", function(msg) {
+                console.log("朋友1接收到信息:", msg);
+            })
+            this.$on("test", function(msg) {
+                console.log("朋友2接收到信息:", msg);
+            })
+        },
+        el: "#app",
+        methods: {
+            handleClick: function() {
+                this.$emit("test", "(*^_^*)");
+            }
+        },
+    })
+</script>
+
+</html>

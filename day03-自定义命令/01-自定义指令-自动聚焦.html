@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="command">
+        <!-- vue 指令是以 v- 开头的特殊属性 -->
+        <input type="text">
+        <input type="text" v-focus>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    /* 自定义一个 自动聚焦的指令 v-focus*/
+    Vue.directive("focus", {
+        // inserted:指令所在的节点 插入到dom元素中的时候
+        inserted: function(ele) {
+            console.log(ele);
+            ele.focus(); //实现自动聚焦
+        }
+    });
+
+    let ve = new Vue({
+        el: "#command",
+        data: {
+            msg: "(*^_^*)",
+        }
+    });
+</script>
+
+</html>

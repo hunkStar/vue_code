@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <h1>父组件中的title值{{title_str}}</h1>
+        <!-- 父传子 => 属性 -->
+        <!-- 
+            1.v-on:myeventname
+            2.v-on:update:title
+            3. myeventname = update:title 
+         -->
+        <!-- a.1 通过父向子传值  title_str 传给子组件 -->
+        <!-- <demo :title="title_str" @update:title="handleTitle"></demo> -->
+        <!-- <demo :title="title_str" @update:title="title_str=$event"></demo> -->
+
+        <!-- b.1 定义 sync作用的属性 -->
+        <demo :title.sync="title_str"></demo>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    Vue.component("demo", {
+        props: {
+            title: String,
+        },
+        data: function() {
+            /* b.2 传进来的title 进行data的转换 */
+            return {
+                title_str: this.title
+            }
+        },
+        template: `
+            <div>
+                <hr/>
+                <h1>demo子组件的内容</h1>
+                <h1>父组件传进来的title:{{title_str}}</h1>
+
+                <!-- a.4 通过事件改变传进来的 title_str 值 -->
+                <button @click="handleChangeTitle">改变title的值</button>
+            </div>
+        `,
+        methods: {
+            handleChangeTitle: function() {
+                this.title_str = "😀";
+                /* b.3 触发sync修饰符中定义的 update:title 事件,注意：这里触发的事件名字必须是update:title，这是定义好的*/
+                this.$emit("update:title", this.title_str);
+            }
+        },
+    })
+    let vm = new Vue({
+        el: "#app",
+        data: {
+            title_str: "(*^_^*)"
+        },
+        methods: {
+            /* a.7 执行父组件中的方法 同时将参数进行传入 */
+            // handleTitle:function(msg){
+            //     this.title_str = msg;
+            // }
+        },
+    })
+</script>
+
+</html>

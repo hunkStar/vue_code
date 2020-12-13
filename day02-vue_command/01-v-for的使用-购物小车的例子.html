@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <section v-for="(item,index) in products" :key="item.id">
+                <span>{{item.name}}</span> &nbsp;&nbsp;
+                <span>{{item.price}}</span>&nbsp;&nbsp;
+                <button @click="handleAdd(index)">+</button>&nbsp;
+                <span>{{item.count}}</span>&nbsp;
+                <button @click="handleSub(index)">-</button>&nbsp;
+                <span>{{item.count*item.price}}</span>&nbsp;&nbsp;
+            </section>
+            <h1>总价：{{totalPrice}}</h1>
+        </div>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el: "#app",
+        // 计算 属性
+        computed: {
+            /* 
+              1. 具有缓存的作用
+              2. 实时计算的
+             */
+            totalPrice: function() {
+                let totalPrice = 0;
+                this.products.map(v => {
+                    totalPrice += v.count * v.price;
+                })
+                return totalPrice;
+            }
+        },
+        methods: {
+            handleAdd: function(index) {
+                let newProducts = JSON.parse(JSON.stringify(this.products));
+                newProducts[index].count += 1;
+                this.products = newProducts;
+            },
+            handleSub: function(index) {
+                let newProducts = JSON.parse(JSON.stringify(this.products));
+                newProducts[index].count -= 1;
+                this.products = newProducts;
+            },
+        },
+        data: {
+            products: [{
+                id: 1,
+                name: "apple",
+                price: 3,
+                count: 2,
+            }, {
+                id: 2,
+                name: "pear",
+                price: 4,
+                count: 3,
+            }, {
+                id: 3,
+                name: "banana",
+                price: 5,
+                count: 4,
+            }, ],
+        },
+    });
+</script>
+
+</html>

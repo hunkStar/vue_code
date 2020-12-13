@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body></body>
+<script src="./node_modules/axios/dist/axios.js"></script>
+<script>
+    console.log(axios);
+    // axios 发送get 请求
+    /* axios
+      .get("https://apimusic.linweiqin.com/song/url?id=421423808")
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => console.log(err))
+      .finally(function () {
+        console.log("请求完成啦");
+      }); */
+
+    // axios 发送get请求  带参数
+    axios.get("https://apimusic.linweiqin.com/song/url", {
+        params: {
+            id: 421423808
+        }
+    }).then(res => {
+        console.log(res);
+    }).catch(err => console.log(err)).finally(function() {
+        console.log("请求完成啦");
+    })
+</script>
+
+</html>

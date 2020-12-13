@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        .active {
+            color: red;
+        }
+        
+        .router-link-active {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 
+      一、router-link
+
+      与 router-view 一样，都是引入了 vue-router 之后，提供的全局组件
+      
+      router-link的作用就是实现路由的跳转（url的跳转）
+      它本质上就是一个a标签。我们推荐使用它，而不是去用a标签来跳转
+
+      二、语法：
+      <router-link to="/home">home</router-link>
+
+        to 属性是必须的。用来设置点击时跳转到哪里。
+
+      三、使用 router-link 比 普通 a 标签好在哪里？
+
+        1. 路径不需要去写 # 号了。它会根据当前路由的模式来决定最终渲染出去的a标签的href属性有没有 # 号。
+          例子：刚开始做项目时，用的hash模式，然后跳转都用的a标签。
+                后面老板让你将 hash模式换成history模式，这时你会很辛苦。
+        
+        2. 能够很方便的去实现高亮效果
+          默认情况下，当前的路由地址与某个router-link的to属性匹配时，会给渲染出去的a元素添加上两个class
+          1. router-link-exact-active 
+          2. router-link-active
+
+          这时，
+          方案一、只需要去设置一下这两个类中的某个类的样式就可以了
+
+          方案二、设置 router-link 组件的 active-class 属性，属性值为某个class名字
+                1. 希望默认的 router-link-active        改为=> active
+                    active-class="active"
+                2. 希望默认的 router-link-exact-active  改为=> exact-active
+                    exact-active-class="exact-active"
+          
+    <router-link active-class="active" exact-active-class="exact-active" to="/home">home</router-link>
+    <router-link active-class="active" exact-active-class="exact-active" to="/list">list</router-link>
+    <router-link active-class="active" exact-active-class="exact-active" to="/about">about</router-link>
+
+            然后设置active样式就可以了
+    -->
+
+    <div id="app">
+        <!-- 提供三个router-link标签来使用路由进行跳转 -->
+        <router-link to="/home">home</router-link>
+        |
+        <router-link to="/list">list</router-link>
+        |
+        <router-link to="/about">about</router-link>
+        |
+
+        <router-view></router-view>
+    </div>
+
+    <!-- 引入 vue 的核心 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <!-- 引入 Vue router 的插件 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue-router@3.1.6/dist/vue-router.min.js"></script>
+    <script>
+        // 直接提供组件的配置对象
+        const home = {
+            name: "home",
+            template: `
+          <div>
+            <h1>home</h1>
+          </div>
+        `,
+        };
+        const list = {
+            name: "list",
+            template: `
+          <div>
+            <h1>list</h1>
+          </div>
+        `,
+        };
+        const about = {
+            name: "about",
+            template: `
+          <div>
+            <h1>about</h1>
+          </div>
+        `,
+        };
+
+        // 定义路由规则
+        let routes = [
+            // 一个对象就是一条路由规则
+            {
+                // 每一条规则有一些配置项，主要的是 path 和 component
+                //      path - 路由url地址，一般是#号后面的部分
+                //           GET  http://localhost:8080/10-路由起步.html/#/home
+                //      component 使用哪个路由页面组件去渲染，
+                //                不能是组件名字的字符串
+                //                可以直接提供一个包含组件配置项的对象即可
+                path: "/home",
+                component: home,
+            }, {
+                // GET  http://localhost:8080/10-路由起步.html/#/list
+                path: "/list",
+                component: list,
+            }, {
+                // GET  http://localhost:8080/10-路由起步.html/#/about
+                path: "/about",
+                component: about,
+            },
+        ];
+
+        let router = new VueRouter({
+            routes,
+        });
+
+        var vm = new Vue({
+            el: "#app",
+            // 配置一个 router 选项
+            router,
+        });
+    </script>
+</body>
+
+</html>

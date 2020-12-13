@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+      一、先来看一些情况
+        1. 当访问的路由是详情页面是，不应该显示底部的3个超链接
+        2. 卖座的h5页面，访问登录、影院详情等页面时看不到底部的tabbar
+      
+      二、目前我们这份代码，底部的tabbar是写死在根组件的template里面的。
+        不管router-view怎么变化，下面的 tabbar 都能被渲染
+
+      三、如何处理这种情况呢：
+        1. 思考那些url地址的时候，需要看到 底部 tabbar 呢
+            1. /home 
+            2. /list
+            3. /about
+
+        2. 思考那些url地址的时候，不能看到 底部 tabbar
+            1. /detail/:id
+
+        3. 做一些路由级别的划分
+            一级路由：
+              完全控制整个页面的变化，在路由规则数组中是第一个层级的选项
+            二级路由
+              在一级路由规则中，通过 children 选项配置的。
+              控制对应的一级路由页面中的某个部分的变化 
+            三级路由
+              在二级路由规则中，通过 children 选项配置的
+              控制对应的二级路由页面中的某个部分的变化
+
+        4. 将 /detail/:id 做为一级路由，应为它需要完整去控制整个页面的改变
+           再重新定义一个 一级路由，/index
+           在 将 /home /list /about 这些配置为 /index 的子路由
+           /index 对应的路由页面组件中，提供 router-view 渲染它的子路由
+        
+      四、路由匹配时所指定的组件渲染到那个坑里面去呢？找坑指南？
+          找父亲身上的坑
+
+     -->
+
+    <div id="app">
+        <router-view></router-view>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-router@3.1.6/dist/vue-router.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.min.js"></script>
+    <script src="./views/home.js"></script>
+    <script src="./views/list.js"></script>
+    <script src="./views/about.js"></script>
+    <script src="./views/detail.js"></script>
+    <script src="./views/index.js"></script>
+    <script>
+        // 1. 定义路由页面组件(不是全局注册也不是局部注册，只是提供组件的配置选项对象即可)
+
+        // 2. 实例化路由的实例对象
+        const router = new VueRouter({
+            // 路由规则
+            routes: [{
+                path: "/",
+                // 重定向，值设置为一个要重定向到的路径
+                redirect: "/index/home",
+            }, {
+                path: "/detail/:id",
+                component: detail,
+            }, {
+                path: "/index",
+                component: index,
+                children: [
+                    // 注意，
+                    // 1. 子路由的path属性前面不要写 /
+                    // 2. 访问子路由的时候，需要带上她父亲的路由前缀
+                    // GET /index/home
+                    {
+                        path: "home",
+                        component: home,
+                    },
+                    // GET /index/list
+                    {
+                        path: "list",
+                        component: list,
+                    },
+                    // GET /index/about
+                    {
+                        path: "about",
+                        component: about,
+                    },
+                ],
+            }, ],
+        });
+
+        // 3. 在 new Vue() 时，配置 router 选项，选项值就是 路由实例对象
+        var vm = new Vue({
+            el: "#app",
+            router,
+        });
+    </script>
+</body>
+
+</html>

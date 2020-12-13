@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+      native 事件修饰符。
+      
+      作用：将事件绑定到组件的根元素上
+
+      了解一些信息：
+        在调用组件时去绑定一些原生事件，比如 click dblclick mousedown。他们是不生效的。因为会将他们任何
+        是自定义事件的监听
+
+      这时如果希望生效，有两种方法
+      1. 子组件触发这个事件
+      2. 使用 native 事件修饰符(更有效)
+
+     -->
+
+    <div id="app">
+        <!-- baseButton组件的根元素是template中的最外层元素，即button元素 -->
+        <base-button @click.native="fn1"></base-button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script>
+        // Vue.component("baseButton", {
+        //   template: `
+        //     <button @click="$emit('click')">按钮1</button>  
+        //   `,
+        // });
+
+        Vue.component("baseButton", {
+            template: `<button>按钮1</button>`,
+        });
+
+        var vm = new Vue({
+            el: "#app",
+            methods: {
+                fn1() {
+                    console.log("fn1");
+                },
+            },
+        });
+    </script>
+</body>
+
+</html>

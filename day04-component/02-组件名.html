@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <!-- <com1></com1> -->
+
+      <!-- <hello-world></hello-world> -->
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+
+    <!-- 
+      在 template 选项中写模板内容，非常不方便，没有代码提示，也没有语法高亮。
+
+      这时可以将 模板内容，放置到一个 script 标签中，要注意
+        1. 给这个script的type属性设置为 text/x-template
+        2. 给这个script设置一个id
+
+      然后 组件的 template 选项，可以直接去使用 #xxId 即可
+
+     -->
+
+    <script id="appTmp" type="text/x-template">
+      <div id="app">
+        <com1></com1>
+
+        <hello-world></hello-world>
+
+        <helloWorld></helloWorld>
+      </div>
+    </script>
+
+    <script>
+      Vue.component("com1", {
+        template: `
+          <div>
+            <div>我是一个 com1 com1 </div>
+            <p>com1</p>
+          </div>
+        `,
+      });
+
+      Vue.component("helloWorld", {
+        template: `
+          <div>我是一个 Helo world 组件</div>
+        `,
+      });
+
+      var vm = new Vue({
+        el: "#app",
+
+        template: "#appTmp",
+      });
+    </script>
+  </body>
+</html>

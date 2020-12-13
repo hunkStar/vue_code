@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+      单向数据流：数据的流向是从高往地流。不能反过来
+
+      root ->prop-> hello √    即：可以从父向子直接传递数据
+      hello ->prop-> root ×    即：不可以从子向父直接传递数据
+
+     -->
+    <div id="app">
+        <hello :name="myName"></hello>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script>
+        Vue.component("hello", {
+            props: {
+                name: String,
+            },
+            template: `
+          <div>
+            <p>Hello {{ name }}</p>
+            <button @click="fn1">修改name</button>
+          </div>
+        `,
+            methods: {
+                fn1() {
+                    console.log(this.name);
+                    this.name = "王五"; //虽然能够执行，但是会报错，子不能直接向父传递数据
+                },
+            },
+        });
+
+        var vm = new Vue({
+            el: "#app",
+
+            data: {
+                myName: "张三",
+            },
+        });
+    </script>
+</body>
+
+</html>

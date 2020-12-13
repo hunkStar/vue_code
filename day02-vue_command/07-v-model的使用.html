@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 头部开始 -->
+        <div class="app-header">
+            <h1>手机号登录/注册</h1>
+        </div>
+
+        <!-- 中间部分开始 -->
+        <div class="app-mid">
+            <div class="app-mid-top">
+                <span>+86</span> <input type="text" v-model="phone" />
+            </div>
+            <div class="app-mid-bottom">
+                <input type="text" v-model="code" /><span>发送验证码</span>
+            </div>
+        </div>
+
+        <!-- 底部部分开始 -->
+        <div class="app-bottom">
+            <button @click="confirmBtn">确定</button>
+        </div>
+
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    // v-model实现了双向数据改变，让vue中data的值随着文本框中的value改变，反之亦行。
+    let ve = new Vue({
+        el: "#app",
+        data: {
+            phone: "",
+            code: ""
+        },
+        methods: {
+            confirmBtn: function() {
+                if (!!this.phone && !!this.code) {
+                    console.log("登录成功");
+                } else {
+                    alert('手机号或验证码未填！')
+                }
+            }
+        }
+
+    })
+</script>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <demo post-title="(*^_^*)"></demo>
+        <demo :arr="['☀','月亮','※']"></demo>
+        <demo :fn="fnc"></demo>
+        <demo :pro="prom"></demo>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    Vue.component("demo", {
+        props: {
+            // 1.可以是数值、字符等基本数据类型
+            postTitle: {
+                type: [Number, String, Array],
+                default: "笑个锤子😀"
+            },
+
+            // 2.可以是数组
+            arr: {
+                type: Array,
+                default: function() {
+                    return [];
+                }
+            },
+
+            // 3.可以是函数
+            fn: {
+                type: Function
+            },
+
+            // 4.可以是promise对象
+            pro: {
+                type: Promise
+            },
+        },
+        template: `
+        <div>
+            <h1>{{postTitle}}</h1>
+            <span v-for="(item,index) in arr">{{item}}</span>
+        </div>
+        `
+
+    });
+
+    let vm = new Vue({
+        el: "#app",
+        data: {
+            fnc: function() {},
+            prom: new Promise(function() {})
+        },
+    });
+</script>
+
+</html>

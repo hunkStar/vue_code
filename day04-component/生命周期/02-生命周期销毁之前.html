@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        li {
+            height: 36px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{ count }}</p>
+        <ul>
+            <li v-for="item in 1000">{{ hh }}</li>
+        </ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+
+            data: {
+                count: 1,
+                timer: '',
+                hh: "😀"
+            },
+
+            methods: {
+                onScroll() {
+                    console.log("滚动中");
+                },
+            },
+
+            // 设置一个计时器，每个一秒钟就对 count 做+1 操作。选择一个生命周期钩子函数来实现。
+            // 应该在哪一个里面去做呢？首先排除掉更新阶段与销毁阶段
+            // 其次初始挂载阶段的4个 beforeCreate created beforeMount mounted
+            // 排除 beforeCreate 。另外三个都ok。一般选择 created 或者 mounted
+            mounted() {
+                this.timer = setInterval(() => {
+                    console.log("计时器");
+                    this.count += 1;
+                }, 1000);
+
+                // 定义一个全局的滚动条滚动事件的监听
+                window.addEventListener("scroll", this.onScroll);
+            },
+
+            beforeDestroy() {
+                // 清理计时器
+                clearInterval(this.timer); //注意这个timer一定是全局下的
+
+                // 清除全局滚动监听
+                window.removeEventListener("scroll", this.onScroll);
+            },
+        });
+    </script>
+</body>
+
+</html>

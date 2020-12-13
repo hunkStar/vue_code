@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+  命名路由，就是在设置路由规则的时候，提供一个 name 属性
+
+  这个属性的值，后续可以用来实现 跳转
+
+ -->
+    <div id="app">
+        <router-view></router-view>
+
+        <hr />
+
+        <ul>
+            <li>
+                <!-- <router-link to="/home">home</router-link> -->
+                <router-link :to="{ name: 'a' }">home</router-link>
+            </li>
+            <li>
+                <!-- <router-link to="/list">list</router-link> -->
+                <router-link :to="{ name: 'b' }">list</router-link>
+            </li>
+            <li>
+                <!-- <router-link to="/about">about</router-link> -->
+                <router-link :to="{ name: 'c' }">about</router-link>
+            </li>
+        </ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-router@3.1.6/dist/vue-router.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.min.js"></script>
+    <script src="./views/home.js"></script>
+    <script src="./views/list.js"></script>
+    <script src="./views/about.js"></script>
+    <script>
+        const router = new VueRouter({
+            // 路由规则
+            routes: [{
+                path: "/home",
+                name: "a",
+                component: home,
+            }, {
+                path: "/list",
+                name: "b",
+                component: list,
+            }, {
+                path: "/about",
+                name: "c",
+                component: about,
+            }, ],
+        });
+
+        var vm = new Vue({
+            el: "#app",
+            router,
+        });
+    </script>
+</body>
+
+</html>

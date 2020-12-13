@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        .nav {
+            display: flex;
+            width: 500px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+        }
+        
+        .nav-item {
+            flex: 1;
+        }
+        
+        .active {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="nav">
+            <div @click="handleClick('home')" :class="['nav-item',{active:activeTab==='home'}]">
+                主页
+            </div>
+            <div @click="handleClick('introduce')" :class="['nav-item',{active:activeTab==='introduce'}]">
+                公司介绍
+            </div>
+            <div @click="handleClick('product')" :class="['nav-item',{active:activeTab==='product'}]">
+                产品介绍
+            </div>
+        </div>
+        <div class="nav-content">
+            <!-- 方法一：自定义组件的形式 -->
+            <!-- <home v-if="activeTab==='home'"></home>
+            <introduce v-if="activeTab==='introduce'"></introduce>
+            <product v-if="activeTab==='product'"></product> -->
+
+            <!-- 方法二：使用<component> 比第一种更高效 -->
+            <component :is="activeTab"></component>
+
+            <!-- 方法三：keep-alive的形式 -->
+            <!-- max 指定缓存的组件的数量 -->
+            <!-- <keep-alive :max="2">
+                <component :is="activeTab"></component>
+            </keep-alive> -->
+        </div>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    Vue.component("home", {
+        template: `<h1>主页</h1>`,
+        beforeDestroy() {},
+        destroyed() {
+            console.log("home组件销毁拉");
+        },
+    });
+    Vue.component("introduce", {
+        template: `<h1>公司介绍</h1>`,
+        beforeDestroy() {},
+        destroyed() {
+            console.log("introduce组件销毁拉");
+        },
+    });
+    Vue.component("product", {
+        template: `<h1>产品介绍</h1>`,
+        beforeDestroy() {},
+        destroyed() {
+            console.log("product组件销毁拉");
+        },
+    });
+
+    let vm = new Vue({
+        el: "#app",
+        data: {
+            activeTab: "home",
+        },
+        methods: {
+            handleClick: function(activeTab) {
+                this.activeTab = activeTab;
+            },
+        },
+    });
+</script>
+
+</html>

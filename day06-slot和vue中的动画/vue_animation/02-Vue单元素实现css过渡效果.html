@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .fade-enter-active,
+        .fade-leave-active {
+            transition: opacity 0.5s;
+        }
+        
+        .fade-enter,
+        .fade-leave-to {
+            transition: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <button @click="show=!show">显示或隐藏</button>
+
+        <!-- name 过渡的名称 -->
+        <transition name="fade">
+            <demo v-if="show"></demo>
+        </transition>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+<script>
+    Vue.component("demo", {
+        template: `<h1>😀</h1>`
+    });
+
+    let ve = new Vue({
+        el: "#app",
+        data: {
+            show: false
+        }
+    })
+</script>
+
+</html>

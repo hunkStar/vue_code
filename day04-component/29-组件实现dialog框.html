@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" />
+    <style>
+        .modal {
+            display: block;
+        }
+        
+        .modal-mask {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 
+      一、dialog 的实现
+
+      1. 直接使用 bootstrap 的样式
+      2. 注册 dialog 组件
+        (1). 处理蒙层
+        (2). 默认隐藏 dialog 。期望通过数据的方式来由外层组件控制
+            visible   => props
+        (3). dialog 自身的右上角关闭按钮操作
+
+            dialog 的显示隐藏目前是通过 visible 这个 prop 来控制
+
+            1). 在组件内将组件中的 visible = false 就能关闭。×××××××××× (不能去主动修改 prop)
+            2). 追溯上去。发现其实真正控制显示隐藏的是 父组件中 的 isShow 这个 data 数据
+              子 -> 父
+              1>. $emit() 触发自定义事件
+              2>. 监听自定义事件
+
+      3. 使用 dialog 组件
+
+     -->
+    <div id="app">
+        <button class="btn btn-primary" @click="isShow = true">显示 Dialog</button>
+
+        <my-dialog :visible="isShow" title="示例框" @closewindow="hanldeClose"></my-dialog>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script>
+        Vue.component("myDialog", {
+            props: {
+                // 控制 dialog 显示隐藏
+                visible: {
+                    type: Boolean,
+                    default: false,
+                },
+
+                title: {
+                    type: String,
+                    default: "标题",
+                },
+            },
+
+            template: `
+        <div class="modal" tabindex="-1" v-if="visible">
+          
+          <div class="modal-mask"></div>
+
+          <div class="modal-dialog">
+            <div class="modal-content">
+              
+              <div class="modal-header">
+                <h5 class="modal-title">{{ title }}</h5>
+                <button type="button" class="close" @click="close">
+                  <span>&times;</span>
+                </button>
+              </div>
+
+              <div class="modal-body">
+                <p>这里放的是模态框的内容....</p>
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" @click="close">关闭</button>
+                <button type="button" class="btn btn-primary">保存</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        `,
+
+            methods: {
+                close() {
+                    // 触发一个自定义事件
+                    this.$emit("closewindow");
+                },
+            },
+        });
+
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                isShow: false,
+            },
+            methods: {
+                hanldeClose() {
+                    // 执行关闭操作
+                    this.isShow = false;
+                },
+            },
+        });
+    </script>
+</body>
+
+</html>

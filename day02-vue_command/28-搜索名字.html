@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+      搜索功能
+      1. 考虑搜索之后是直接去修改 list 这个数据么？ 不行
+          源数据（ajax请求回来）不要去做额外的修改
+      2. 定义一个数据 searchVal 搜索关键字。 与 input 框绑定起来即可
+      3. 定义一个数据 searchList 搜索到的结果
+          seachList 是基于 list 与 searchVal    (过滤)
+     -->
+
+    <div id="app">
+        <input type="text" placeholder="请输入用户的姓名" v-model="searchVal" />
+
+        <h2>搜索结果</h2>
+        <ul>
+            <li v-for="item in searchList">{{ item.name }}</li>
+        </ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+
+            data: {
+                list: [{
+                    id: 1,
+                    name: "张三",
+                    age: 18
+                }, {
+                    id: 2,
+                    name: "李四",
+                    age: 18
+                }, {
+                    id: 3,
+                    name: "王三",
+                    age: 18
+                }, {
+                    id: 4,
+                    name: "王五",
+                    age: 18
+                }, ],
+                searchVal: "",
+            },
+
+            computed: {
+                searchList() {
+                    // 一、精准匹配
+                    // return this.list.filter((item) => {
+                    //   return item.name === this.searchVal;
+                    // });
+
+                    // 二、模糊搜索
+                    return this.list.filter((item) => {
+                        // 条件是 item.name 中 包含有 this.searchVal 即可 
+                        //  indexOf > -1
+                        return item.name.indexOf(this.searchVal) > -1;
+                    });
+                },
+            },
+        });
+    </script>
+</body>
+
+</html>

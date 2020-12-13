@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+        #app {
+            display: flex;
+        }
+        
+        .box {
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+            background: pink;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 
+      template 元素
+
+      Vue 给我们提供了一个 template 元素，它的作用是包裹元素不会渲染到浏览器上。
+
+      需求：通过isShow这个数据同时去控制两个或以上的元素时
+     -->
+    <div id="app">
+        <div class="box" v-if="isShow">我的天</div>
+        <div class="box" v-if="isShow">我的地</div>
+        <div class="box" v-if="isShow">我的人</div>
+
+        <!-- 三个元素是同级的，干脆在外层提供一个div包裹住，然后v-if只需要用在外层那个元素上不就好了 -->
+
+        <!-- <div v-if="isShow">
+            <div class="box">我的天</div>
+            <div class="box">我的地</div>
+            <div class="box">我的人</div>
+        </div> -->
+
+        <template v-if="isShow">
+            <div class="box">我的天</div>
+            <div class="box">我的地</div>
+            <div class="box">我的人</div>
+        </template>
+
+        <!-- 但是提供一个元素做包裹在有些情况下会出现一些个样式问题 
+        比如上面两个操作：
+        第一个操作方式是ok的。没有影响到样式
+        第二个操作方式是不ok的，影响了页面样式，页面布局
+
+        如何解决第二个操作的问题呢：
+          只需要将外层的div元素给换成 template 元素
+        原因是 template 只是一个包裹元素，不会渲染到浏览器，也就不会影响样式与布局
+      -->
+    </div>
+
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+
+            data: {
+                isShow: true,
+            },
+        });
+    </script>
+</body>
+
+</html>

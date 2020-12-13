@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/wrapTree.css">
+</head>
+
+<body>
+    <div class="wrap">
+        <div id="example-1">
+            <!-- 单行文本 -->
+            <input type="text" v-model="inputVal" />
+            <p>Message is: {{ inputVal }}</p>
+            <br/>
+            <!-- 多行文本 -->
+            <span>多行信息：</span>
+            <p>{{ textareaVal }}</p>
+            <textarea type="text" v-model="textareaVal"></textarea>
+        </div>
+
+        <!-- 单个复选框 有true和false-->
+        <div id="example-2">
+            <input type="checkbox" id="cbox" value="单个复选框" v-model="singleCheckbox" />
+            <label for="cbox">true/false的单个复选框</label>
+        </div>
+
+        <!-- 单个复选框 没有true和false，后台传回一个 Y (代表true) /  N (代表false)-->
+        <div id="example-21">
+            <input type="checkbox" id="cbox2" v-model="YNchecked" true-value="Y" false-value="N" />
+            <label for="cbox2">Y/N值的单个复选框</label>
+        </div>
+
+        <!-- 多个复选框 绑定到同一个数组 -->
+        <div id="example-3">
+            <input type="checkbox" name="" id="checkbox1" value="USA" v-model="checkboxs" />
+            <label for="checkbox1">美国</label>
+            <input type="checkbox" name="" id="checkbox2" value="CN" v-model="checkboxs" />
+            <label for="checkbox2">中国</label>
+            <input type="checkbox" name="" id="checkbox3" value="EN" v-model="checkboxs" />
+            <label for="checkbox3">英国</label><br/>
+            <span>你选中的复选框有: {{ checkboxs }}</span>
+        </div>
+
+        <!-- 单选按钮 -->
+        <div id="example-4">
+            <input type="radio" id="one" value="One" v-model="picked">
+            <label for="one">One</label>
+            <br>
+            <input type="radio" id="two" value="Two" v-model="picked">
+            <label for="two">Two</label>
+            <br>
+            <span>你点击的按钮是: {{ picked }}</span>
+        </div>
+
+        <!-- 下拉菜单单选 -->
+        <div id="example-5">
+            <select v-model="selected">
+              <option disabled value="">请选择</option>
+              <option>A</option>
+              <option>B</option>
+              <option>C</option>
+            </select>
+            <span>你选中的选项是: {{ selected }}</span>
+        </div>
+
+        <!-- 下拉菜单多选 在单选select中加一个multiple属性，按住Ctrl键多选-->
+        <div id="example-6">
+            <select v-model="selectes" multiple style="width: 50px;">
+              <option>A</option>
+              <option>B</option>
+              <option>C</option>
+            </select>
+            <br>
+            <span>你选中的选项有: {{ selectes }}</span>
+        </div>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    let ve = new Vue({
+        el: ".wrap",
+        data: {
+            inputVal: "",
+            textareaVal: "",
+            singleCheckbox: false, // 单个复选框通过false、true控制就行
+            YNchecked: "N", // Y代表true、N代表false
+            checkboxs: [],
+            picked: "One", // 默认先选中one
+            selected: "",
+            selectes: []
+        }
+
+    });
+</script>
+
+</html>

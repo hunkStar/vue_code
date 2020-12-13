@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body></body>
+<script src="./node_modules/axios/dist/axios.js"></script>
+<script>
+    function getLooping() {
+        return axios.post("http://s.linweiqin.com/api/s/getIndexLoopimg", {
+            username: "TT",
+        });
+    }
+
+    function getUrl() {
+        return axios.get("https://apimusic.linweiqin.com/song/url", {
+            params: {
+                id: 421423808,
+            },
+        });
+    }
+    // [promise1,promise2,promise3]
+    // Promise.all([getLooping(),getUrl()]).then(res=>{
+    //     console.log(res);
+    //     console.log(123);
+    // })
+
+    axios.all([getLooping(), getUrl()]).then(
+        axios.spread(function(res1, res2) {
+            // Both requests are now complete
+            console.log(res1);
+            console.log(res2);
+        })
+    );
+</script>
+
+</html>

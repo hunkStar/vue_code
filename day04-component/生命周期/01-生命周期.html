@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{ msg }}</p>
+    </div>
+
+    <!-- 
+      在 beforeCreate 中能发送ajax请求吗？
+
+      普遍来说是不能的，原因是 ajax 请求数据之后我们是需要将数据赋值给 data 中定义的某个数据的。
+      但是在 beforeCreate 的时候，是没法给 data 中数据赋值的。
+
+      如果要深究的话，也是可以的。因为 ajax 是异步的操作。异步完成的时候，
+      生命周期肯定是进入了后续阶段(走完了mounted挂载阶段，如果有数据修改，会在beforeUpdated阶段之前完成)的。
+      在后续阶段中是可以去修改 data 中的数据的。
+
+      $.get(url, function() {
+        // 异步的回调
+      })
+
+
+     -->
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                msg: "hello",
+            },
+            methods: {
+                fn1() {
+                    alert("fn1");
+                },
+            },
+
+            // 生命周期的钩子函数也是配置选项
+            // 注意，不能使用箭头函数。不然 this 指向会有问题
+            // beforeCreate: function () {
+            //   console.log("beforeCreate ===========");
+            //   // console.log(this.$el);
+            //   // console.log(this.$data);
+
+            //   // setTimeout(() => {
+            //   //   console.log("setTimeout");
+            //   //   this.msg = "world";
+            //   // });
+            // },
+
+            created() {
+                console.log("created ===========");
+                // ？this.$data 中的 msg 查看时是个 world 不应该是 hello 么？
+                // console.log() 输出对象时不可以信。因为对象是引用数据类型。后续的修改，会表现出来
+
+                // console.log(this.$data);
+                // console.log(this.msg);
+                // this.msg = "world";
+                // console.log(this.$el); //还拿不到$el
+                // this.fn1();
+            },
+
+            beforeMount() {
+                console.log("beforeMount ===========");
+                console.log(this.$el); //还获取不到真实的DOM元素及节点，只会获取到<P>{{msg}}</P>
+            },
+
+            // mounted() {
+            //   console.log("mounted ===========");
+            //   // console.log(this.$el);
+            // },
+
+            beforeUpdate() {
+                console.log("beforeUpdate ===========");
+                console.log(this.$el.innerHTML);
+            },
+
+            updated() {
+                console.log("updated ===========");
+                console.log(this.$el.innerHTML);
+            },
+
+            beforeDestroy() {
+                console.log("beforeDestroy ===========");
+            },
+
+            destroyed() {
+                console.log("destroyed ===========");
+            },
+        });
+    </script>
+</body>
+
+</html>

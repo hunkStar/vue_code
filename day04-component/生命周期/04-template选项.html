@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+      整理一下笔记：vue中template都能干什么
+
+      1. template 做为包裹元素来使用
+      2. template 配置选项
+          如果有template选项，那么就使用 template 选项的内容做为模板。后续解析完成去替换挂载点元素。
+
+          如果没有template选项，那么就使用 el 指定的元素作为模板。后续解析完成去替换挂载点元素。
+
+     -->
+
+    <div id="app">
+        <p>asdfasdfasdf</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+
+            data: {
+                msg: "hello",
+            },
+
+            template: "<p>我是一个屁{{ msg }}</p>", //挂载点没了，template替换了整个app的div元素
+        });
+    </script>
+</body>
+
+</html>

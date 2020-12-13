@@ -1,0 +1,30 @@
+@bc:#324057;
+
+// 上下左右居中
+.tlc{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.fc{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+//字体大小，颜色
+.sc(@size, @color){
+	font-size: @size;
+	color: @color;
+}
+.fsb(@type space-between){
+    display: flex;
+    justify-content: @type;
+    align-items: center;
+}
+
+// 设置宽高
+.wh(@width,@height){
+    width:@width;
+    height: @height;
+}

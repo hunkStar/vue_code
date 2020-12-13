@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/blog.css">
+</head>
+
+<body>
+    <div id="app">
+        <blog></blog>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    Vue.component("blog", {
+        template: `
+        <div>
+        <!-- 顶部开始 -->
+        <div class="app-header">
+            <div class="app-header-left">有什么新鲜事想告诉大家</div>
+            <div class="app-header-right">热门微博</div>
+        </div>
+        <!-- 顶部结束 -->
+        <!-- 中间内容的开始 -->
+        <div class="app-mid">
+            <textarea name="" id="" cols="30" rows="10"></textarea>
+        </div>
+        <!-- 中间内容的结束 -->
+        <!-- 底部内容开始 -->
+        <div class="app-bottom">
+            <div class="app-bottom-left">
+                <section class="bottom-left-item">表情</section>
+                <section class="bottom-left-item">图片</section>
+                <section class="bottom-left-item">视频</section>
+                <section class="bottom-left-item">话题</section>
+                <section class="bottom-left-item">头条文章</section>
+            </div>
+            <div class="app-bottom-right">
+                <span class="title">发帖</span>
+            </div>
+        </div>
+        <!-- 底部内容结束 --> 
+        </div>
+        `
+    })
+    let vm = new Vue({
+        el: "#app"
+    })
+</script>
+
+</html>

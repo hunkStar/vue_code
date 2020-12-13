@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+      一、父->子 通信
+      就是使用 prop 传递数据给子组件即可
+     -->
+    <div id="app">
+        <parent></parent>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script>
+        Vue.component("parent", {
+            data() {
+                return {
+                    son1Name: "张一",
+                    son2Name: "张二",
+                    son3Name: "张三",
+                };
+            },
+            template: `
+          <div>
+            <p>我是父亲，我有三个儿子，他们的名字分别是：张一、张二、张三</p>
+            <button @click="son1Name = '张一一'">修改 张一的名字</button>
+            <button @click="son2Name = '张二二'">修改 张二的名字</button>
+            <button @click="son3Name = '张三三'">修改 张三的名字</button>
+
+            <son :name="son1Name"></son>
+            <son :name="son2Name"></son>
+            <son :name="son3Name"></son>
+          </div>
+        `,
+        });
+
+        Vue.component("son", {
+            props: {
+                name: {
+                    type: String,
+                    required: true,
+                },
+            },
+            template: `
+          <div>
+            <p>我是儿子，我的名字是 {{ name }} ,父亲取的</p>
+          </div>
+        `,
+        });
+
+        var vm = new Vue({
+            el: "#app",
+        });
+    </script>
+</body>
+
+</html>

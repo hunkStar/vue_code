@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>todoList</title>
+    <link rel="stylesheet" href="./index.css" />
+</head>
+
+<body>
+    <!-- 
+      拖动主要是三个事件和一个属性的操作
+
+      1. 给需要拖动的元素设置 draggable 属性为 true
+      2. 给需要拖动的元素监听 ondragstart 事件
+      3. 放到何处的元素上监听 ondragover 事件。主要就是阻止默认行为就好
+      4. 放到何处的元素上监听 ondrop 事件
+
+
+      [1, 2, 3, 4, 5] => 1 拖动到 4 => [2, 3, 4, 1, 5]
+
+        1. 将 1 添加到 4 的后面   [1, 2, 3, 4, 1, 5]      （将要拖动的元素添加到结束下标 + 1的位置）
+        2. 将 1 给删掉                                    （将开始下标的元素给删除掉）
+
+
+      [1, 2, 3, 4, 5] => 1 拖动到 3 => [2, 3, 1, 4, 5]
+
+        1. 将 1 添加到 3 的后面   [1, 2, 3, 1, 4, 5]      （将要拖动的元素添加到结束下标 + 1的位置）
+        2. 将 1 给删除                                    (将开始下标的元素给删除掉）
+
+
+
+
+      [1, 2, 3, 4, 5] => 5 拖动到 1 => [5, 1, 2, 3, 4]
+
+        1. 将 5 添加到 1 的位置上 [5, 1,2, 3, 4, 5]    (将要拖动的元素添加到结束下标的位置)
+        5. 将 5 给删除                                （就开始下标+1的元素删除掉）
+
+      1. 拖动的元素的下标
+      2. 放置到的元素的下标
+     -->
+
+    <div id="app" v-cloak>
+        <header>
+            <section>
+                <form @submit.prevent="addTodo">
+                    <label for="title">ToDoList</label>
+                    <input type="text" id="title" name="title" placeholder="添加ToDo" required="required" autocomplete="off" v-model="title" />
+                </form>
+            </section>
+        </header>
+
+        <section>
+            <h2>正在进行 <span>{{ todoList.length }}</span></h2>
+            <ol class="demo-box">
+                <li v-for="item in todoList" :key="item.id" draggable="true" @dragstart="onDragstart(item.id)" @dragover.prevent="onDragover" @drop="onDrop(item.id)">
+                    <input type="checkbox" @change="chgTodo(item.id, true)" />
+
+                    <p v-show="item.id !== editId" @click="showEdit(item.id, item.name)">{{ item.name }}</p>
+
+                    <p v-show="item.id === editId">
+                        <input type="text" v-model="editValue" :ref="`editInput-${item.id}`" @blur="hideEdit(item.id)" />
+                    </p>
+
+                    <a href="javascript:;" @click="delTodo(item.id)">-</a>
+                </li>
+            </ol>
+
+            <h2>已经完成 <span>{{ doneList.length }}</span></h2>
+            <ul>
+                <li v-for="item in doneList" :key="item.id">
+                    <input type="checkbox" @change="chgTodo(item.id, false)" checked />
+                    <p>{{ item.name }}</p>
+                    <a href="javascript:;" @click="delTodo(item.id)">-</a>
+                </li>
+            </ul>
+        </section>
+
+        <footer>
+            Copyright © 2014 todolist.cn
+            <a href="javascript:;" @click="delAll">clear</a>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script src="./index.js"></script>
+</body>
+
+</html>

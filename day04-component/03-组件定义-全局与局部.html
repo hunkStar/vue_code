@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <ButtonCounter></ButtonCounter>
+        <ButtonCounter></ButtonCounter>
+
+        <button-counter></button-counter>
+        <button-counter></button-counter>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    /* 全局组件的定义 */
+
+    // 注意：组队名最好用kebab-case的形式，用-
+    // HTML中的标签可以用大写的形式，但是组件名必须用小写，因为HTML不识别标签名大写小
+    Vue.component("buttoncounter", { //组件名第一种写法
+        data: function() {
+            return {
+                count: 100
+            }
+        },
+        // template => 组件渲染 html的内容
+        template: ` <button @click="count++">点击计数加1 {{count}}</button>`
+    });
+
+    Vue.component("button-counter", { //组件名第二种写法
+        data: function() {
+            return {
+                count: 100
+            }
+        },
+        // template => 组件渲染 html的内容
+        template: ` <button @click="count--">点击计数减1 {{count}}</button>`
+    });
+
+
+    let ve = new Vue({
+        el: "#app",
+        data: {
+            count: 1
+        },
+
+        // 组件局部定义
+        /* components: {
+            "buttoncounter": { //PascalCase命名
+                data: function() {
+                    return {
+                        count: 100
+                    }
+                },
+                template: ` <button @click="count++">点击计数加1 {{count}}</button>`
+            },
+
+            "button-counter": { //kebab-case命名
+                data: function() {
+                    return {
+                        count: 100
+                    }
+                },
+                template: ` <button @click="count--">点击计数减1 {{count}}</button>`
+            }
+        } */
+
+    })
+</script>
+
+</html>

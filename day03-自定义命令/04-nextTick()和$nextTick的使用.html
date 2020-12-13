@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="wrap">
+        <h1 id="smile">{{msg}}</h1>
+        <button @click="changeHtml">改变h1的值</button>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    // Vue 实现响应式并**不是数据发生变化之后 DOM 立即变化**，而是按一定的策略进行 DOM 的更新。
+    // 简单来说，Vue在修改数据后，视图不会立刻更新，而是等**同一事件循环**中的所有数据变化完成之后，
+    // 再统一进行视图更新。在下次 DOM 更新循环结束之后执行延迟回调。
+    // 在修改数据之后立即使用这个方法，获取更新后的 DOM。
+
+    // 即：在下次 DOM 更新循环结束之后执行延迟回调。在修改数据之后立即使用这个方法，获取更新后的 DOM
+
+    Vue.nextTick().then(function() {
+        console.log("Vue.nextTick里面调用的：", document.getElementById("smile").innerHTML); // "(ㄒoㄒ)"
+    });
+
+    let ve = new Vue({
+        el: "#wrap",
+        data: {
+            msg: "(*^_^*)"
+        },
+        methods: {
+            changeHtml: function() {
+                this.msg = "(ㄒoㄒ)";
+                console.log(document.getElementById("smile").innerHTML); // "(*^_^*)"
+
+                // 实例方法 this.$nextTick
+                this.$nextTick(function() {
+                    console.log("$nextTick里面调用的：", document.getElementById("smile").innerHTML); // "(ㄒoㄒ)"
+                });
+            }
+        }
+    });
+</script>
+
+</html>

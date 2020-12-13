@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        .active {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 
+      Vue 中提供有一个内置的组件叫做 component is 。这个组件就是动态组件。
+      它需要设置 is 属性。is 属性的值就是需要渲染的组件的名字
+
+      <component is="hello" ></component>     hello 组件替换这个内容
+      <component is="world" ></component>     world 组件替换这个内容
+
+      1. 如果组件不存在就会报错
+      2. 将is属性设置为一个可以变化的数据，就能实现组件的动态切换
+
+     -->
+    <div id="app">
+        <button :class="{ active: curPage === 'home' }" @click="curPage = 'home'">home</button>
+        <button :class="{ active: curPage === 'list' }" @click="curPage = 'list'">list</button>
+        <button :class="{ active: curPage === 'about' }" @click="curPage = 'about'">about</button>
+
+        <hr />
+
+        <component :is="curPage"></component>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script>
+        Vue.component("home", {
+            template: `
+          <div>
+            <h1>home</h1>
+          </div>
+        `,
+        });
+
+        Vue.component("list", {
+            template: `
+          <div>
+            <h1>list</h1>
+          </div>
+        `,
+        });
+
+        Vue.component("about", {
+            template: `
+          <div>
+            <h1>about</h1>
+          </div>
+        `,
+        });
+
+        var vm = new Vue({
+            el: "#app",
+
+            data: {
+                curPage: "home",
+            },
+        });
+    </script>
+</body>
+
+</html>

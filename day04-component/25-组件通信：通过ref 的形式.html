@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- ref 实现组件间的通信 -->
+    <!-- `ref` 被用来给元素或子组件注册引用信息。引用信息将会注册在父组件的 `$refs` 对象上。
+    如果在普通的 DOM 元素上使用，引用指向的就是 DOM 元素；
+    如果用在子组件上，引用就指向组件实例： -->
+
+    <!-- 
+        例子1：在普通DOM元素上使用，vm.$refs.p 指向的就是 DOM节点
+        <p ref="p">hello</p> 
+
+        例子2：在子组件上使用，vm.$refs.child 指向的就是 组件实例
+        <child-component ref="child">world</child-component>
+    -->
+
+
+    <div id="app">
+        <test ref="test_ref"></test>
+        <button @click="getRef" ref="btn">获取test组件的实例</button>
+        <p ref="pp">你在想屁吃</p>
+    </div>
+</body>
+
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    Vue.component("test", {
+        template: ` <h1>test 子组件</h1>  `
+    })
+
+    let vm = new Vue({
+        el: "#app",
+        methods: {
+            getRef: function() {
+
+                console.log(this.$refs); // 输出有ref属性的集合
+
+                console.log(this.$refs.test_ref); //因为带有test_ref属性的是一个子组件，所以输出的是该子组件的实例
+
+                console.log(this.$refs.test_ref.$el); // 输出ref属性是“test_ref”的元素
+            }
+        },
+    })
+</script>
+
+</html>

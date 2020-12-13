@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+      Vue 中 路由有两种不同的模式
+
+      1. hash 模式  （默认模式）
+      2. hisotry 模式 
+
+      一、如何切换模式呢
+        new VueRouter() 的时候，配置 mode 选项就可以切换模式
+
+      二、两种模式有和区别：（！！！！重要！！！！）
+
+     -->
+
+    <div id="app">
+        <!-- 提供三个router-link标签来使用路由进行跳转 -->
+        <router-link to="/home">home</router-link>
+        |
+        <router-link to="/list">list</router-link>
+        |
+        <router-link to="/about">about</router-link>
+        |
+
+        <router-view></router-view>
+    </div>
+
+    <!-- 引入 vue 的核心 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <!-- 引入 Vue router 的插件 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue-router@3.1.6/dist/vue-router.min.js"></script>
+    <script>
+        // 1、直接提供组件的配置对象
+        const home = {
+            name: "home",
+            template: `
+          <div>
+            <h1>home</h1>
+          </div>
+        `,
+        };
+        const list = {
+            name: "list",
+            template: `
+          <div>
+            <h1>list</h1>
+          </div>
+        `,
+        };
+        const about = {
+            name: "about",
+            template: `
+          <div>
+            <h1>about</h1>
+          </div>
+        `,
+        };
+
+        // 2、定义路由规则
+        let routeArr = [
+            // 一个对象就是一条路由规则
+            {
+                // 每一条规则有一些配置项，主要的是 path 和 component
+                //      path - 路由url地址，一般是#号后面的部分
+                //           GET  http://127.0.0.1:5500/home
+                //      component 使用哪个路由页面组件去渲染，
+                //                不能是组件名字的字符串
+                //                可以直接提供一个包含组件配置项的对象即可
+                path: "/home",
+                component: home,
+            }, {
+                // GET  http://127.0.0.1:5500/list
+                path: "/list",
+                component: list,
+            }, {
+                // GET  http://127.0.0.1:5500/about
+                path: "/about",
+                component: about,
+            },
+        ];
+
+        // 3、实例化路由对象
+        let myRouter = new VueRouter({
+            // 路由模式，只能从 hash 与 history 中选择一个,默认是hash
+            mode: "history",
+            routes: routeArr,
+        });
+
+        // 4、在Vue实例中配置一个 router 选项
+        var vm = new Vue({
+            el: "#app",
+            router: myRouter,
+        });
+    </script>
+</body>
+
+</html>

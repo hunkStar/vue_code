@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+      一、兄弟组件之间的通信
+
+        1. 最简单粗暴的方式：找他们的爹
+          world -> 通知 -> root -> prop -> hello
+
+        2. 推荐，中央事件管理器（中央事件总线）
+          适用于: 亲兄弟之间或者关系特别复杂的组件之间
+
+          1. 先创建一个空的vue实例对象。也就是不需要额外配置什么选项。
+            const bus = new Vue()
+          2. A B 两个组件，A 通信 B
+            步骤1. 先在 B 组件的 created 中去通过 bus 来监听一个自定义事件
+              bus.$on(eventName, callback)
+                - eventName 要监听的事件的名字
+                - callback  事件触发时的一个回调函数
+                    - payload 事件触发时传递过来的 payload 参数
+
+            步骤2. 在 A 组件的某个时候去触发自定义事件
+              bus.$emit(eventName, payload)
+                - eventName 要触发的事件的名字
+                - payload   触发事件时传递过去的参数
+            
+        3. vuex 全局状态管理器
+
+     -->
+
+    <div id="app">
+        <hello></hello>
+        <world></world>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script>
+        // 创建一个事件总线
+        const bus = new Vue();
+
+        Vue.component("hello", {
+            data() {
+                return {
+                    hname: "hello",
+                };
+            },
+            template: `<h1>hello的内容 - {{ hname }}</h1>`,
+
+            created() {
+                // 监听
+                bus.$on("brother", (param) => {
+                    console.log("abc事件被触发了");
+                    this.hname = param;
+                });
+            },
+        });
+
+        Vue.component("world", {
+            data() {
+                return {
+                    wname: "world",
+                };
+            },
+            template: `
+          <div>
+            <h1>world的内容 - {{ wname }}</h1>
+            <button @click="update">点击，去修改 hello 组件的name</button>  
+          </div>
+        `,
+            methods: {
+                update() {
+                    // 触发abc
+                    bus.$emit("brother", '你好啊');
+                },
+            },
+        });
+
+        var vm = new Vue({
+            el: "#app",
+        });
+    </script>
+</body>
+
+</html>

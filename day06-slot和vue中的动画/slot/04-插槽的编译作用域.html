@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+      一、插槽的编译作用域
+
+      1. 编译作用域：
+          父级模板里的所有内容都是在父级作用域中编译的；子模板里的所有内容都是在子作用域中编译的。
+      
+      2. 插槽的编译作用域：
+          注意：虽然说插槽内容最终渲染在子组件内。但是他的编译作用域还是要看插槽内容写在哪个组件的template里面。
+          而不是看插槽内容最终渲染在哪个组件的template里面的slot标签。
+
+          写在组件标签内的插槽内容是不属于组件的template的。只是通过slot可以让他渲染在组件里面去。
+     -->
+
+    <div id="app">
+        <!-- {{ msg }}  root -->
+        <hello>
+            <p>我是一个插槽内容。{{ msg }}</p>
+        </hello>
+
+        <hello></hello>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script>
+        Vue.component("hello", {
+            data() {
+                return {
+                    msg: "hello",
+                };
+            },
+
+            template: `
+          <div>
+            <slot>
+              <p>默认内容 {{ msg }}</p>
+            </slot>
+            <h1>Hello</h1>
+          </div>
+        `,
+        });
+
+        var vm = new Vue({
+            data: {
+                msg: "root",
+            },
+            el: "#app",
+        });
+    </script>
+</body>
+
+</html>

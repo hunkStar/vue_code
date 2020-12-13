@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{ msg }}</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script>
+        // 在创建实例对象后面通过.$mount("#app")再手动怪载
+        var vm = new Vue({
+            // el: "#app",
+
+            data: {
+                msg: "hello",
+            },
+
+            beforeCreate() {
+                console.log("beforeCreate");
+            },
+
+            created() {
+                console.log("created");
+            },
+
+            beforeMount() {
+                console.log("beforeMount");
+            },
+
+            mounted() {
+                console.log("mounted");
+            },
+        }).$mount("#app");
+
+
+        // var vm = new Vue({
+        //     // el: "#app",
+
+        //     data: {
+        //         msg: "hello",
+        //     },
+
+        //     beforeCreate() {
+        //         console.log("beforeCreate");
+        //     },
+
+        //     created() {
+        //         console.log("created");
+        //     },
+
+        //     beforeMount() {
+        //         console.log("beforeMount");
+        //     },
+
+        //     mounted() {
+        //         console.log("mounted");
+        //     },
+        // });
+
+        // setTimeout(() => {
+        //     // 手动去挂载
+        //     vm.$mount("#app");
+        // }, 2000);
+    </script>
+</body>
+
+</html>

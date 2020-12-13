@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+      一、组件的 inheritAttrs 配置选项
+
+        组件接收到的 非prop特性 会自动继承到组件的 根元素上。如果不希望继承，就可以配置 inheritAttrs 为 false 。 
+     -->
+    <div id="app">
+        <hello id="box" title="hello" name="zhagnsan" :age="18"></hello>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script>
+        Vue.component("hello", {
+            inheritAttrs: false,
+
+            props: {
+                name: String,
+                age: Number,
+            },
+
+            template: `<div>hello</div>`,
+        });
+
+        var vm = new Vue({
+            el: "#app",
+        });
+    </script>
+</body>
+
+</html>

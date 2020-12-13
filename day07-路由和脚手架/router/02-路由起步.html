@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+      1. 在 Vue 核心之后引入 VueRouter
+      2. 准备路由页面组件（跟路由相关的组件，就叫做路由页面组件）
+          1. home
+          2. list
+          3. about
+      3. 定义路由的规则，是一个数组对象
+      4. 实例化路由对象, 使用new VueRouter()生成一个 router 实例
+          let router = new VueRouter({
+            // 路由实例的配置项，主要是一个 routes 选项，这个选项就是路由规则
+          })
+
+      5. 实例化Vue根组件时，也就是 new Vue() 的时候，需要配置 router 选项，选型的值 就是上一个步骤中
+          生成VueRouter的实例
+
+          这时访问页面会发现url地址就会出现 # 号了    
+          GET #/
+        
+      6. 需要在某个位置，放置一个 路由视图（路由坑，就是用来填充匹配的路由页面组件的一个东西）
+          路由视图本身是 VueRouter 提供的一个全局的组件   router-view
+
+          这时url地址与某个路由规则匹配时，就会将相应的路由页面组件渲染到这个 router-view 上
+
+          GET #/home  home组件渲染路由视图
+          GET #/list  list组件渲染路由视图
+          GET #/about about组件渲染路由视图
+
+      注意：
+          路由页面组件，在 VueDevtools 看的时候，名字不太好记忆。
+          所以推荐，任何组件都设置一个 name 的选项。这个选项就是给组件取个名字
+     -->
+
+    <div id="app">
+        <!-- 提供三个a标签来使用路由进行跳转 -->
+        <a href="#/home">home</a> | <a href="#/list">list</a> |
+        <a href="#/about">about</a> |
+
+        <router-view></router-view>
+    </div>
+
+    <!-- 引入 vue 的核心 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <!-- 引入 Vue router 的插件 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue-router@3.1.6/dist/vue-router.min.js"></script>
+    <script>
+        // 1、直接提供组件的配置对象
+        const home = {
+            name: "home",
+            template: `
+          <div>
+            <h1>home</h1>
+          </div>
+        `,
+        };
+        const list = {
+            name: "list",
+            template: `
+          <div>
+            <h1>list</h1>
+          </div>
+        `,
+        };
+        const about = {
+            name: "about",
+            template: `
+          <div>
+            <h1>about</h1>
+          </div>
+        `,
+        };
+
+        // 2、定义路由规则
+        let routeArr = [
+            // 一个对象就是一条路由规则
+            {
+                // 每一条规则有一些配置项，主要的是 path 和 component
+                //      path - 路由url地址，一般是#号后面的部分
+                //           GET  http://http://127.0.0.1:5500/day07-路由/router/02-路由起步.html#/home
+                //      component 使用哪个路由页面组件去渲染，
+                //                不能是组件名字的字符串
+                //                可以直接提供一个包含组件配置项的对象即可
+                path: "/home",
+                component: home,
+            }, {
+                // GET  http://http://127.0.0.1:5500/day07-路由/router/02-路由起步.html#/list
+                path: "/list",
+                component: list,
+            }, {
+                // GET  http://http://127.0.0.1:5500/day07-路由/router/02-路由起步.html#/about
+                path: "/about",
+                component: about,
+            },
+        ];
+
+        // 3、实例化路由对象
+        let myRouter = new VueRouter({
+            routes: routeArr,
+        });
+
+        // 4、在Vue实例中配置一个 router 选项
+        var vm = new Vue({
+            el: "#app",
+            router: myRouter,
+        });
+    </script>
+</body>
+
+</html>

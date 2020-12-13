@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 这个 div 。是可以看成是 根组件的 template 的 -->
+    <div id="app">
+        <com1></com1>
+        <com2></com2>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script>
+        // 全局注册一个组件 com1
+        Vue.component("com1", {
+            // 必须有 template 或者 render 选项，用来规定组件的模板内容
+
+            template: `
+          <div>
+            我是组件 com1
+
+            <com2></com2>
+
+            <com3></com3>
+          </div>
+        `,
+        });
+
+        // 全局注册一个组件 com2
+        Vue.component("com2", {
+            template: `
+          <div>
+            我是组件 com2
+
+            <com3></com3>
+          </div>
+        `,
+
+            components: {
+                // com3 与 com4 只属于 com2 .也就是说只能在 com2 中去使用
+                com3: {
+                    template: `<div>我是组件 com3</div>`
+                },
+                com4: {
+                    template: `<div>我是组件 com4</div> `
+                },
+            },
+        });
+
+        // 根组件
+        var vm = new Vue({
+            el: "#app",
+        });
+    </script>
+</body>
+
+</html>

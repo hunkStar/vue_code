@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body></body>
+<script src="./node_modules/axios/dist/axios.js"></script>
+<script>
+    /* 响应的拦截器 */
+    axios.interceptors.response.use(
+        function(response) { //成功响应
+            return response.data;
+        },
+        function(error) {
+            return Promise.reject(error);
+        }
+    );
+
+    axios.get("http://s.linweiqin.com/api/s/getIndexLoopimg")
+        .then((res) => {
+            console.log(res);
+            // console.log(res.data);
+        })
+        .catch((err) => console.log(err));
+</script>
+
+</html>

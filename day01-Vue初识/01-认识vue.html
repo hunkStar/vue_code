@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 2. 定义一个受到Vue 控制的元素 -->
+    <div id="app">
+        <!-- 4. 模板语法 来引用对象中的数据  {{ msg }}-->
+        {{ msg }}
+    </div>
+</body>
+<!-- 1. 引入需要的依赖 -->
+<!-- <script src="https://cn.vuejs.org/js/vue.js"></script> -->
+<script src="node_modules/vue/dist/vue.js"></script>
+<script>
+    /* 3. 实例化 Vue */
+    let vm = new Vue({
+        el: "#app", // 受到控制的元素
+        data: {
+            msg: "👍👍👍👍👍👍"
+        }
+    })
+</script>
+
+</html>

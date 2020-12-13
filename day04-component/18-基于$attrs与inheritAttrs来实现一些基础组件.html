@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+      一、基于 $attrs 和 inheritAttrs 来实现一些基础组件
+
+      思考实现一个 input 组件
+
+      1. label 可以配置
+      2. type  可以配置
+      3. placeholder 可以配置
+      4. readonly 可以配置
+      5. disabled 可以配置
+
+      发现，原生的 input 框是有很多的属性可以去控制，比如：type、placeholder、readonly、disabled
+      现在，将这些属性都设置为 prop 数据来进行控制的话，有点费劲。
+
+      能不能解决这个费劲的问题：希望能够像下面这种去调用。但是不需要在组件中做这些prop的定义
+
+        <base-input label="用户名" placeholder="请输入用户名"></base-input>
+        <base-input label="密码" type="password" placeholder="请输入密码"></base-input>                                     
+        <base-input label="地址" placeholder="请输入地址" disabled></base-input>
+
+      这时，就可以使用 $attrs 与 inheritAttrs 来实现
+
+
+      二、做一个组件的时候需要考虑的事情：（！！！！）
+        1. 组件要实现什么功能
+        2. 组件中那些地方是应该使用数据来控制的，这个数据用什么数据来控制呢
+            1. data 数据？      组件自身要对数据做修改的时候
+            2. props 数据？     需要通过父组件去传递下来的时候
+            3. computed 数据？  这个数据可以基于 现有的 data 、props、computed 做计算得来的时候
+     -->
+
+    <div id="app">
+        <base-input label="用户名" placeholder="请输入用户名"></base-input>
+        <base-input label="密码" type="password" placeholder="请输入密码"></base-input>
+        <base-input label="地址" placeholder="请输入地址" disabled></base-input>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script>
+        Vue.component("baseInput", {
+            inheritAttrs: false,
+            props: {
+                label: {
+                    type: String,
+                    required: true,
+                },
+            },
+            // 不使用prop数据，而是使用非prop特性数据
+            // template: `
+            //   <div>
+            //     <label>
+            //       <span>{{ label }}</span>
+            //       <input
+            //         :type="$attrs.type"
+            //         :placeholder="$attrs.placeholder"
+            //         :disabled="$attrs.disabled"
+            //         :readonly="$attrs.readonly" />
+            //     </label>
+            //   </div>
+            // `,
+
+            // 一个一个的去绑定 $attrs 也挺费劲。这时可以使用 v-bind 直接绑定一个对象
+            // v-bind="{key1: value1, key2: value2}" => v-bind:key1="value1" v-bind:key2="value2"
+            template: `
+          <div>
+            <label>
+              <span>{{ label }}</span>
+              <input v-bind="$attrs" />
+            </label>
+          </div>
+        `,
+            created() {
+                console.log(this.$attrs);
+            },
+        });
+
+        // Vue.component("baseInput", {
+        //   props: {
+        //     label: {
+        //       type: String,
+        //       required: true,
+        //     },
+        //     type: {
+        //       type: String,
+        //       default: "text",
+        //     },
+        //     placeholder: {
+        //       type: String,
+        //       default: "请输入",
+        //     },
+        //     readonly: {
+        //       type: Boolean,
+        //       default: false,
+        //     },
+        //     disabled: {
+        //       type: Boolean,
+        //       default: false,
+        //     },
+        //   },
+        //   template: `
+        //     <div>
+        //       <label>
+        //         <span>{{ label }}</span>
+        //         <input :type="type" :placeholder="placeholder" :readonly="readonly" :disabled="disabled" />
+        //       </label>
+        //     </div>
+        //   `,
+        // });
+
+        var vm = new Vue({
+            el: "#app",
+        });
+    </script>
+</body>
+
+</html>

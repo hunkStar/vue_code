@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+      一、编程式导航 (用js控制路由跳转)
+      二、声明式导航 (用 router-link 来控制路由跳转)
+
+      三、$router
+        使用 vue-router 之后，在 vue 的原型上提供了一个 $router 对象。
+        使用这个对象的一些方法来进行路由的跳转
+
+        方法一：this.$router.push()  
+          1. 就相当于普通的 router-link
+          2. 它的参数可以是：
+             (1). 字符串，要跳转到路由的path
+             (2). 对象，对象中配置 path 属性。
+          
+          [空白页, home,] => push('/list') => [空白页, home, list]
+
+        方法二：this.$router.replace()
+          1. 就相当于带有 replace 属性 的 router-link
+          2. 它的参数可以是：
+             (1). 字符串，要跳转到路由的path
+             (2). 对象，对象中配置 path 属性。
+
+          [空白页, home,] => replace('/list') => [空白页, list ]
+
+        其他方法：
+        this.$router.back()         后退  history.back()
+        this.$router.go(num)        前进或后退，根据传递参数是正数还是负数来决定  history.go()
+        this.$router.forward()      前进  history.forward()
+
+
+      四、this.$router.push() 与 this.$router.replace() 和 router-link 上的 to 属性，
+        传递为对象时，对象有下面的属性：
+        - path
+        - name
+        - query
+        - params   !!params 与 path 不能共存，会产生冲突，请使用 name 和 params 结合使用!!
+        - meta
+
+      五、$route 与 $router 的区别
+
+        1. $route 是当前匹配的路由信息对象，可以通过他获取一些当前路由的一些信息。比如 params 
+          动态参数。vue 将 $route 挂到了每个组件的 data 数据里面。
+
+        2. $router 就是 new VueRouter() 生成的那个实例对象，vue 将他挂载到了 Vue 的原型上面，
+          所以每个组件都通过访问，然后使用来完成编程式导航的一些操作
+     -->
+
+    <div id="app">
+        <router-view></router-view>
+        <hr />
+        <ul>
+            <li>
+                <!-- <router-link to="/home" replace>home</router-link> -->
+                <button @click="fn1">home</button>
+            </li>
+            <li>
+                <!-- 在router-link中使用replace,就等于this.$router.replace() -->
+                <router-link to="/list" replace>list</router-link>
+            </li>
+            <li>
+                <router-link :to="{ path: '/about' }">about</router-link>
+            </li>
+        </ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-router@3.1.6/dist/vue-router.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.min.js"></script>
+    <script src="./views/home.js"></script>
+    <script src="./views/list.js"></script>
+    <script src="./views/about.js"></script>
+    <script>
+        const router = new VueRouter({
+            // 路由规则     
+            routes: [{
+                path: "/home",
+                component: home,
+            }, {
+                path: "/list",
+                component: list,
+            }, {
+                path: "/about",
+                component: about,
+            }, {
+                // name 给路由取个名字
+                name: "abc",
+                path: "/detail/:id",
+                component: {
+                    template: ` <div><h1>detail</h1></div> `,
+                },
+            }],
+        });
+
+        // 如果多次点击按钮，会报错，控制台会说：不能多次重复点击
+
+        // 重写 push方法 => 避免多次导航到同一个路径 报错
+        let orginalPush = VueRouter.prototype.push;
+        VueRouter.prototype.push = function(path) {
+            return orginalPush.call(this, path).catch(err => err);
+        }
+
+        // 重写 replace方法 => 避免多次导航到同一个路径 报错
+        let orginalReplace = VueRouter.prototype.replace;
+        VueRouter.prototype.replace = function(path) {
+            return orginalReplace.call(this, path).catch(err => err);
+        }
+
+        var vm = new Vue({
+            el: "#app",
+            router,
+            methods: {
+                fn1() {
+                    // 使用编程式导航的方式来跳转到 /home 这个路由
+
+                    // 1. 传字符串的形式
+                    // this.$router.push("/home");
+
+                    // 2. 传对象的形式
+                    this.$router.push({
+                        name: "abc",
+                        params: {
+                            id: 1,
+                        },
+
+                        // path: "/detail",
+                        // query: {
+                        //     name: "张三",
+                        //     age: 18,
+                        // },
+                    });
+                },
+            },
+        });
+    </script>
+</body>
+
+</html>

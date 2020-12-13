@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+      对象更新检测的问题
+
+      直接给对象新增一个属性是不会引起页面更新的。
+
+      解决方法使用 Vue.set() 或者 vm.$set() 即可
+
+        Vue.set(target, key, value)
+          target 要修改的数据源
+          key     key
+          value   value
+      
+
+     -->
+    <div id="app">
+        <ul>
+            <li v-for="(value, key) in myObj">
+                {{ key }} - {{ value }}
+            </li>
+        </ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+
+            data: {
+                myObj: {
+                    name: "张三",
+                    age: 18,
+                },
+            },
+        });
+
+        Vue.set(vm.myObj, "name", "李四四");
+        vm.$set(vm.myObj, "age", 200)
+    </script>
+</body>
+
+</html>

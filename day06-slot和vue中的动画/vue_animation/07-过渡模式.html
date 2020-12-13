@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .fade-enter,
+        .fade-leave-to {
+            opacity: 0;
+            transform: translateX(10px)
+        }
+        
+        .fade-enter-active,
+        .fade-leave-active {
+            transition: all .5s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <button @click="show=!show">展示</button>
+        <!-- <transition name="fade" mode="in-out"> -->
+        <transition name="fade" mode="out-in">
+            <button v-if="show" key="save">
+                    Save
+                </button>
+            <button v-else key="edit">
+                    Edit
+                </button>
+        </transition>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el: "#app",
+        data: {
+            show: true
+        }
+    })
+</script>
+
+</html>

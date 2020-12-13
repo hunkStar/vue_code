@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<!-- 组件的一些注意事项 -->
+<!-- 1. 组件没有 el 选项。因为后续调用组件在哪里，这个组件的挂载点就是哪里
+2. 必须有 template 或者 render 选项，用来规定组件的模板内容
+3. data 选项必须是一个函数返回对象的形式
+4. 组件名不能是现有的html标签名，也不能是其他已经注册过的组件名
+5. 全局注册组件时，必须要放置在 new Vue 之前
+6. 组件名可以使用短横线写法与驼峰写法。但是调用组件时需要使用短横线写法。下列三种情况时可以不听这个规则
+   1. 写在 template 选项中
+   2. 写在 <script type="text/x-template"></script> 里面的
+   3. .vue 后缀的单文件组件中时
+7. 组件的template模板 必须只能有一个根元素。 -->
+
+<body>
+    <div id="app">
+        <!-- 
+            button-counter ==> div span h1
+            注意1. html 标签 不分大小写 命名最好写成 短斜杆
+         -->
+        <button-counter></button-counter>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    //  全局组件的定义
+    Vue.component("button-counter", {
+        /* 注意2. data是一个函数 不是一个对象  */
+        data: function() {
+            return {
+                counter: 888,
+            };
+        },
+
+        /* 注意3. template 里面的html如果有兄弟元素，必须要有一个根元素包含 */
+        template: `
+          <div>
+            <button @click="counter+=1">点击计数加1{{counter}}</button>
+            <button @click="counter+=1">点击计数加1{{counter}}</button>
+            <button @click="counter+=1">点击计数加1{{counter}}</button>
+          </div>
+        `,
+    });
+
+    let vm = new Vue({
+        el: "#app",
+        data: {
+            counter: 1,
+        },
+    });
+
+    // ### 组件的编写方式与Vue实例的区别
+
+    // - 自定义组件需要有一个 根节点
+    // - 父子组件间的`data` 是无法共享的
+    // - 组件可以有 `data`,`methods`,`computed`......,但是data必须是一个函数
+    // - vue实例的data是对象形式，组件是函数形式，因为可以复用功能，如果用对象形式会覆盖原数据
+</script>
+
+</html>

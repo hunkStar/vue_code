@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="wrap">
+        <!-- v-if和v-else 和js的if、else使用一样 -->
+        <div v-if="Math.random()>0.5">
+            you can see the ☀
+        </div>
+        <div v-else>
+            you can see the 🌙
+        </div>
+
+        <div v-if="type==='A'">A</div>
+        <div v-else-if="type==='B'">B</div>
+        <div v-else-if="type==='C'">C</div>
+        <div v-else>啥都没得</div>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    let ve = new Vue({
+        el: "#wrap",
+        data: {
+            msg: "(*^_^*)",
+            type: "C"
+        }
+    })
+</script>
+
+</html>

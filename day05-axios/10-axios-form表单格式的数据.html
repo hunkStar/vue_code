@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body></body>
+<script src="./node_modules/axios/dist/axios.js"></script>
+<!--  const params = new URLSearchParams();
+      params.append('param1', 'value1');
+      params.append('param2', 'value2');
+      axios.post('/foo', params); 
+-->
+
+<script>
+    const params = new URLSearchParams();
+    params.append("name", 123);
+
+
+    axios.post("http://s.linweiqin.com/api/s/getIndexLoopimg", params)
+        .then((res) => {
+            console.log(res);
+            // console.log(res.data);
+        })
+        .catch((err) => console.log(err));
+</script>
+
+</html>

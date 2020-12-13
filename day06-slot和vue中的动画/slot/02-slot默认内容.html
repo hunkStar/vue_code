@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+      一、slot 默认内容 (slot 后备内容)
+
+      写在 slot 标签 内的内容就是这个 slot 标签 的默认内容
+
+     -->
+
+    <div id="app">
+        <hello>
+            <p>我的天，我不帅吗？</p>
+        </hello>
+
+        <hello></hello>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script>
+        Vue.component("hello", {
+            template: `
+          <div>
+            
+            <h1>Hello</h1>
+
+            <slot>
+              <p>我是这个 slot 标签的默认内容</p>
+            </slot>
+          </div>
+        `,
+        });
+
+        var vm = new Vue({
+            el: "#app",
+        });
+    </script>
+</body>
+
+</html>

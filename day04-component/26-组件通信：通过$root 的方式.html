@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 通过.$root的方式实现组件之间的通信-->
+    <div id="app">
+        <test></test>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    Vue.component("test", {
+        template: `
+            <h1>test 子组件{{this.$root.msg}}</h1>
+        `
+    })
+
+    let vm = new Vue({
+        el: "#app",
+        data: {
+            msg: "(*^_^*)"
+        },
+        methods: {
+
+        },
+    })
+</script>
+
+</html>

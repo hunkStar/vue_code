@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+      v-for 指令：主要就是用于做循环
+
+      一、循环数组
+        v-for="item in xxx"
+          item 循环的每一项
+          in   固定写法
+          xxx  要循环的数据
+
+        v-for="(item, index) in xxx"
+          item 循环的每一项
+          index 循环的下标
+          in   固定写法
+          xxx  要循环的数据
+
+      二、循环对象
+        v-for="item in xxx"
+          item 循环的xxx对象的value值
+          in   固定的写法
+          xxx  要循环的数据（对象）
+
+        v-for="(value, key, index) in xxx"
+          value value值
+          key   key值
+          index 下标值
+          in    固定的写法
+          xxx   要循环的数据（对象）
+
+      三、循环字符串
+        v-for="item in '张三'"
+
+      四、循环数字
+        v-for="item in 10"    =>  v-for="item in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
+
+     -->
+    <div id="app">
+        <ul>
+            <li v-for="item in 10">{{ item }}</li>
+        </ul>
+
+        <ul>
+            <li v-for="item in name">{{ item }}</li>
+        </ul>
+
+        <ul>
+            <li v-for="item in fruits">{{ item }}</li>
+        </ul>
+
+        <ul>
+            <li v-for="(item, index) in fruits">{{ index }} - {{ item }}</li>
+        </ul>
+
+        <ul>
+            <li v-for="item in myObj">{{ item }}</li>
+        </ul>
+
+        <ul>
+            <li v-for="(value, key, index) in myObj">
+                {{ index }} - {{ key }} - {{ value }}
+            </li>
+        </ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+
+            data: {
+                fruits: ["Apple", "Banana", "Orange"],
+                myObj: {
+                    name: "梁憨憨",
+                    age: 19,
+                    sex: "男",
+                },
+                name: "张三",
+            },
+        });
+    </script>
+</body>
+
+</html>

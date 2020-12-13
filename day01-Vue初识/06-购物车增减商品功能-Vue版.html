@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="cart">
+        <!-- 事件：v-on:eventname="expression" -->
+        <button v-on:click="plus">+</button>
+        <span>{{num}}</span>
+        <button v-on:click="sub">-</button>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    let ve = new Vue({
+        el: "#cart",
+        data: {
+            num: 10
+        },
+
+        /* 定义实例上面的方法 */
+        methods: {
+            plus: function() {
+                this.num++;
+            },
+            sub: function() {
+                this.num--;
+                if (this.num < 0) {
+                    this.num = 0;
+                }
+            }
+        }
+    });
+</script>
+
+</html>

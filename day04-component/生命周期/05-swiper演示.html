@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@6.3.3/swiper-bundle.min.css" />
+    <style>
+        .swiper-container {
+            width: 600px;
+            height: 400px;
+            margin: 20px auto;
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 
+      使用 Swiper 
+
+      1. Swiper 是操作 DOM 的。需要在 DOM 加载完成之后再去实例化 Swiper
+      2. ?new Swiper 需要放置在vue实例的生命周期钩子函数中的那个里面呢?
+        1. 三个大阶段，首先要排除更新与销毁
+        2. 由于 Swiper 是操作 DOM 的。需要等到真实 DOM 挂载到页面上之后再去操作。所以得选择 mounted
+
+     -->
+
+    <div id="app"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@6.3.3/swiper-bundle.min.js"></script>
+    <script>
+        var vm = new Vue({
+            el: "#app ",
+
+            template: `
+          <div id="app ">
+            <div class="swiper-container">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide">Slide 1</div>
+                <div class="swiper-slide">Slide 2</div>
+                <div class="swiper-slide">Slide 3</div>
+              </div>
+
+              <!-- 如果需要分页器 -->
+              <div class="swiper-pagination"></div>
+              
+              <!-- 如果需要导航按钮 -->
+              <div class="swiper-button-prev"></div>
+              <div class="swiper-button-next"></div>
+              
+              <!-- 如果需要滚动条 -->
+              <div class="swiper-scrollbar"></div>
+            </div>
+          </div>
+        `,
+
+            mounted() {
+                // 实例化 Swiper 的操作
+                // new Swiper(swiper容器的css选择器或者dom对象, 配置选项)
+                new Swiper(".swiper-container", {
+                    direction: "vertical", // 垂直切换选项
+                    loop: true, // 循环模式选项
+
+                    // autoplay: true,
+
+                    autoplay: {
+                        delay: 1000,
+                    },
+
+                    // 如果需要分页器
+                    pagination: {
+                        el: ".swiper-pagination",
+                        dynamicBullets: true,
+                    },
+
+                    // 如果需要前进后退按钮
+                    navigation: {
+                        nextEl: ".swiper-button-next",
+                        prevEl: ".swiper-button-prev",
+                    },
+
+                    // 如果需要滚动条
+                    scrollbar: {
+                        el: ".swiper-scrollbar",
+                    },
+                });
+            },
+        });
+    </script>
+</body>
+
+</html>

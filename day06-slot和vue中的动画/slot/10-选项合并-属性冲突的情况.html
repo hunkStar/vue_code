@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 选项合并 -->
+    <!-- 当组件和混入对象含有同名选项时，这些选项将以恰当的方式进行“合并”。
+    比如，数据对象在内部会进行递归合并，并在发生冲突时以组件数据优先。 -->
+
+    <div id="app">
+
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+<script>
+    let mixData = {
+        data: function() {
+            return {
+                msg: "😀",
+                name: "jack"
+            }
+        }
+    }
+
+    let ve = new Vue({
+        el: "#app",
+        data: {
+            // 混入的时候 如果有属性冲突 以实例为准
+            msg: "(*^_^*)",
+        },
+        mixins: [mixData],
+
+        created() {
+            console.log(this.$data);
+        }
+    })
+</script>
+
+</html>

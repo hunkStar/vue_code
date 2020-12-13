@@ -1,0 +1,63 @@
+* {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+#app {
+  width: 520px;
+  height: 300px;
+  margin: 0 auto;
+  border: 1px solid #333;
+  padding: 10px;
+  margin-top: 100px;
+}
+#app .app-header {
+  display: flex;
+  padding: 2px;
+  justify-content: space-between;
+  height: 50px;
+  line-height: 50px;
+}
+#app .app-header .app-header-left {
+  color: #8291c3;
+}
+#app .app-header .app-header-right {
+  color: #ef9c87;
+}
+#app .app-mid textarea {
+  width: 100%;
+  outline: none;
+  resize: none;
+}
+#app .app-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  line-height: 60px;
+}
+#app .app-bottom .app-bottom-left {
+  display: flex;
+  padding: 5px;
+}
+#app .app-bottom .app-bottom-left .bottom-left-item {
+  flex: 1;
+  width: 70px;
+  text-align: center;
+  cursor: pointer;
+}
+#app .app-bottom .app-bottom-left .bottom-left-item:hover {
+  background: #f5c1a0;
+  color: #fff;
+}
+#app .app-bottom .app-bottom-right .title {
+  border-radius: 5px;
+  display: flex;
+  height: 40px;
+  width: 100px;
+  background-color: #f5c1a0;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+}

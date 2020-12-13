@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body></body>
+<script src="./node_modules/axios/dist/axios.js"></script>
+<script>
+    /* 全局的配置 baseURL */
+    axios.defaults.baseURL = "https://apimusic.linweiqin.com";
+    axios
+        .get("/song/url", {
+            params: {
+                id: 421423808,
+            },
+        })
+        .then((res) => {
+            console.log(res);
+        })
+        .catch((err) => console.log(err))
+        .finally(function() {
+            console.log("请求完成啦");
+        });
+
+    /* 单个实例的配置 */
+    let instance = axios.create({
+        baseURL: "http://s.linweiqin.com",
+    });
+    instance
+        .post("/api/s/getIndexLoopimg", {
+            username: "TT",
+        })
+        .then((res) => {
+            console.log(res);
+        })
+        .catch((err) => console.log(err))
+        .finally(function() {
+            console.log("请求完成啦");
+        });
+</script>
+
+</html>

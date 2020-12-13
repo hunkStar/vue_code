@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+      目前是 /index/home
+            /index/list
+            /index/about
+
+      希望改成
+          /home
+          /list
+          /about
+     -->
+
+    <div id="app">
+        <router-view></router-view>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-router@3.1.6/dist/vue-router.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.min.js"></script>
+    <script src="./views/home.js"></script>
+    <script src="./views/list.js"></script>
+    <script src="./views/about.js"></script>
+    <script src="./views/detail.js"></script>
+    <script src="./views/index.js"></script>
+    <script>
+        const router = new VueRouter({
+            // 路由规则
+            routes: [{
+                path: "/",
+                redirect: "/home",
+            }, {
+                path: "/detail/:id",
+                component: detail,
+            }, {
+                // 只需要将path中的 "/index" 改为 "/" 即可
+                path: "/",
+                component: index,
+                children: [{
+                    path: "home",
+                    component: home,
+                }, {
+                    path: "list",
+                    component: list,
+                }, {
+                    path: "about",
+                    component: about,
+                }, ],
+            }, ],
+        });
+
+        var vm = new Vue({
+            el: "#app",
+            router,
+        });
+    </script>
+</body>
+
+</html>

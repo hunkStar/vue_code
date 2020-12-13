@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body></body>
+<script src="./node_modules/axios/dist/axios.js"></script>
+<script>
+    // 请求的拦截器
+    axios.interceptors.request.use(
+        function(config) {
+            // Do something before request is sent
+            config.data = config.data || {};
+            config.data["token"] = "jkajkdkkkkkkskskkskkk"; // localStorage.getItem("token");
+            return config;
+        },
+        function(error) {
+            // Do something with request error
+            return Promise.reject(error);
+        }
+    );
+
+    // token:"jkajkdkkkkkkskskkskkk"
+
+    axios.post("http://s.linweiqin.com/api/s/getIndexLoopimg")
+        .then((res) => {
+            console.log(res);
+            // console.log(res.data);
+        })
+        .catch((err) => console.log(err));
+</script>
+
+</html>

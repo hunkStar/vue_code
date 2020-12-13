@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 在06-购物车增减商品功能-vue版.html中，
+    plus: function() {
+            this.num++;
+        }  为啥this指向了data？？？，涉及到数据劫持问题，this指向的是vue实例
+    -->
+</body>
+<script>
+    class Vue {
+        constructor(option) { // option 就是 实例对象中的el data methods...
+            this.initProxy(option.data);
+        }
+
+        initProxy(data) {
+            // console.log(Object.keys(data)); // 输出一个数组 ['num']
+
+            Object.keys(data).map(item => {
+                // console.log(item); //num
+                // console.log(data[item]); //10
+
+                Object.defineProperty(this, item, {
+                    get: function() {
+                        return data[item];
+                    },
+                    set: function(newVal) {
+                        data[item] = newVal;
+                    }
+                });
+
+                // Object.defineProperty()方法直接在一个对象上定义一个新属性，或者修改一个已经存在的属性， 并返回这个对象
+                // Object.defineProperty(obj, prop, descriptor)
+                // obj 需要定义属性的对象。
+                // prop 需被定义或修改的属性名。
+                // descriptor 需被定义或修改的属性的描述符。
+            });
+        }
+    }
+
+    let ve = new Vue({
+        data: {
+            num: 10
+        }
+    });
+    console.log(ve.num);
+</script>
+
+</html>

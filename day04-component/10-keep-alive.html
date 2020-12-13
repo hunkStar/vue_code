@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        .active {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 
+
+      Vue 中提供了一个 keep-alive 内置组件。可以实现组件的缓存。
+
+      需求：
+        home 组件中有一个 name 的 data 数据。这个数据修改之后，再切换到其他的组件。再切换到 home 组件，
+        希望 home 中 name 这个值是之前修改过的值。希望组件有缓存。
+        
+      这时就可以使用 keep-alive
+
+
+      keep-alive 的使用方式：
+      将要缓存的组件使用 keep-alive 包裹住即可。
+
+
+      被 keep-alive 缓存了的组件的特点：
+
+      1. 切换组件时，当前组件不会触发**销毁**的生命周期钩子。也就是说不会销毁了。
+      2. 切换回来时，也不会重新创建。（既然都没有被销毁，哪里来的重新创建呢）
+      3. 会多出两个生命周期的钩子函数
+          3.1 activated    缓存激活     第一次会触发、组件能被看到
+              一般根 created 做一样的事情：请求数据
+          3.2 deactivated  缓存失活     组件不能被看到
+              一般根 beforeDestroy 做一样的事情: 清除定时器、移除全局事件监听
+      4. 可以在 vue devtools 上看见组件的缓存情况
+
+
+      keep-alive 的更多属性设置:
+
+      1. include   包含，  只有在include里面的组件才能缓存
+        (1). include="组件1,组件2"        注意 逗号前后不要有空格
+        (2). :include="[组件1, 组件2]"
+        (3). :include="/^hello/"
+
+      2. exclude  排除
+        (1). exclude="组件1,组件2"        注意 逗号前后不要有空格
+        (2). :exclude="[组件1, 组件2]"
+        (3). :exclude="/^hello/"
+
+      3. max      规定最大能缓存组件的数量，默认是没有限制的
+        假定缓存队列是 [home, list]
+        现在进入about的时候 about 也会被缓存上，这时会将之前的第一个给排出去  [home, list, about] => [list, about]
+        根据先进先出原则
+     -->
+    <div id="app">
+        <button :class="{ active: curPage === 'home' }" @click="curPage = 'home'">
+        home
+      </button>
+        <button :class="{ active: curPage === 'list' }" @click="curPage = 'list'">
+        list
+      </button>
+        <button :class="{ active: curPage === 'about' }" @click="curPage = 'about'">
+        about
+      </button>
+
+        <hr />
+
+        <!-- <keep-alive>
+        <component :is="curPage"></component>
+      </keep-alive> -->
+
+        <!-- 只有 home 与 list 允许被缓存 -->
+        <!-- <keep-alive exclude="about">
+        <component :is="curPage"></component>
+      </keep-alive> -->
+
+        <keep-alive :max="2">
+            <component :is="curPage"></component>
+        </keep-alive>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script>
+        Vue.component("home", {
+            data() {
+                return {
+                    name: "张三",
+                };
+            },
+
+            template: `
+          <div>
+            <h1>home</h1>
+            <p>{{ name }}</p>
+            <button @click="name = '李四'">修改name为 李四</button>
+          </div>
+        `,
+
+            created() {
+                console.log("home created");
+            },
+
+            beforeDestroy() {
+                console.log("home beforeDestroy");
+            },
+
+            activated() {
+                console.log("home activated");
+            },
+
+            deactivated() {
+                console.log("home deactivated");
+            },
+        });
+
+        Vue.component("list", {
+            template: `
+          <div>
+            <h1>list</h1>
+          </div>
+        `,
+
+            created() {
+                console.log("list created");
+            },
+
+            beforeDestroy() {
+                console.log("list beforeDestroy");
+            },
+        });
+
+        Vue.component("about", {
+            template: `
+          <div>
+            <h1>about</h1>
+          </div>
+        `,
+
+            created() {
+                console.log("about created");
+            },
+
+            beforeDestroy() {
+                console.log("about beforeDestroy");
+            },
+        });
+
+        var vm = new Vue({
+            el: "#app",
+
+            data: {
+                curPage: "home",
+            },
+        });
+    </script>
+</body>
+
+</html>

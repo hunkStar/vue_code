@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@5.3.6/css/swiper.min.css" />
+    <style>
+        .swiper-container {
+            width: 600px;
+            height: 400px;
+            margin: 0 auto;
+            border: 1px solid #000;
+        }
+        
+        .swiper-container img {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 
+      现有 http://localhost:8080/data/banner.json 这个API接口
+
+      需要 调用这个接口来实现 轮播图
+
+      1. 定义一个 bannerList 的数据，默认是个空数组，用来存放后续的轮播图数据
+      2. 在某个生命周期钩子函数中去调用 API 接口 （created）
+
+      这时会发现页面的轮播图出现毛病了。
+        毛病是：小圆点不对劲。轮播图操作不OK
+        原因是：ajax是异步的。实例化 Swiper 的时候，页面上还没有得到最终的轮播图数据
+        解决方案：
+
+          方案一、可以在数据更新之后的 updated 中去做 swiper 的更新
+            swiper插件有一个实例方法  
+                mySwiper.update(updateTranslate)
+                    mySwiper - new Swiper时生成的Swiper的实例对象
+                    update   - 方法
+                    updateTranslate - 可选参数，布尔值类型。默认为false。
+                                      当需要重新计算swiper容器的位移变化时需要为true。
+
+          方案二、可以在数据更新之后使用 vm.$nextTick() 这个实例方法的回调中去做 swiper 的更新
+            vm.$nextTick(callback)
+              在这次数据更新完成并且真实DOM也更新完成之后立刻执行回调
+
+          方案三、可以在数据更新之后使用 setTimeout 来做 swiper 的更新
+
+      这三套方案比较：
+
+          （1）首推 vm.$nextTick() 
+          （2）setTimeout 不好控制
+          （3）使用第一套方案 updated 的时候，任何数据的更新都会引起 swiper 的更新。这是没必要的
+        
+      问题2：这份代码还有一个 loop 的问题：loop没用
+
+      原因描述：loop 在 swiper 内部在初始化时会去做复制DOM的操作
+
+      解决方案：等数据请求到并且真实的DOM更新之后再去做 new Swiper 的操作
+     -->
+
+    <div id="app">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide" v-for="item in bannerList">
+                    <img :src="item.url" alt="" />
+                </div>
+            </div>
+
+            <!-- 如果需要分页器 -->
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@5.3.6/js/swiper.min.js"></script>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+
+            data: {
+                bannerList: [],
+            },
+
+            created() {
+                // 发送ajax请求
+                $.ajax({
+                    url: "data/banner.json",
+                    type: "GET",
+                    success: (res) => {
+                        // 直接将这个数组赋值给 data 中 bannerList 即可
+                        this.bannerList = res;
+
+                        // ?直接在数据更新的代码之后就去更新SwiperOK么?
+                        // 不行！！！原因是，真实DOM还没有更新呢？数据的变化要引起页面的变化时需要时间的
+                        // console.log(document.getElementById("app").innerHTML);
+                        // this.mySwiper.update();
+
+                        // 解决方案二：使用 $nextTick，推荐！！！！！
+                        this.$nextTick(() => {
+                            console.log(document.getElementById("app").innerHTML);
+                            this.mySwiper.update();
+                        });
+
+                        // 解决方案三：使用 setTimeout
+                        // setTimeout(() => {
+                        //   console.log(document.getElementById("app").innerHTML);
+                        //   this.mySwiper.update();
+                        // });
+                    },
+                });
+            },
+
+            mounted() {
+                this.mySwiper = new Swiper(".swiper-container", {
+                    loop: true, //循环
+
+                    pagination: { // 如果需要分页器
+                        el: ".swiper-pagination",
+                        dynamicBullets: true,
+                    },
+                });
+            },
+
+            // 解决方案一：使用 setTimeout
+            /* updated() {
+              console.log(document.getElementById("app").innerHTML);
+              this.mySwiper.update();
+            }, */
+        });
+    </script>
+</body>
+
+</html>

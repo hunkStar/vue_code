@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        .active {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 
+      需求1：button的高亮 改变 class 即可
+      
+      思路：
+        1. vue 中一切都与数据相关。先去思考需要什么数据
+           当前是什么页面  -   currentPage
+        2. 用 currentPage 这个数据与 button 元素的 class 绑定起来
+        3. 用 currentPage 来控制下面 div 的显示隐藏
+     -->
+
+    <div id="app">
+        <!-- active 是类名-->
+        <button :class="{ active: currentPage === 'home' }" @mouseover="currentPage = 'home'">首页</button>
+
+        <button :class="{ active: currentPage === 'list' }" @mouseover="currentPage = 'list'">列表页</button>
+
+        <button :class="{ active: currentPage === 'about' }" @mouseover="currentPage = 'about'">关于页</button>
+
+        <div v-show="currentPage === 'home'">
+            我是首页的内容
+        </div>
+        <div v-show="currentPage === 'list'">
+            我是列表页的内容
+        </div>
+        <div v-show="currentPage === 'about'">
+            我是关于页的内容
+        </div>
+    </div>
+
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                // 首页 - home
+                // 列表页 - list
+                // 关于页 - about
+                currentPage: "home",
+            },
+        });
+    </script>
+</body>
+
+</html>

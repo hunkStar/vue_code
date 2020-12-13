@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<!-- 
+      全选/反选功能
+      1. checkedIds   用来保存 list 数据中被勾选的id集合  [1]
+
+      2. checkedAll   用来控制是否全选，它是基于 checkedIds 与 list 计算而来的。 boolean
+                      true    checkedIds.length === list.length
+                      false   checkedIds.length !== list.length
+-->
+
+<body>
+    <div id="app">
+        <table>
+            <thead>
+                <tr>
+                    <th><input type="checkbox" v-model="checkedAll"></th>
+                    <th>姓名</th>
+                    <th>年龄</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item,index) in lists">
+                    <td><input type="checkbox" :value="item.id" v-model="checkboxIds"></td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.age}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js "></script>
+<script>
+    let ve = new Vue({
+        el: "#app ",
+        data: {
+            lists: [{
+                id: 1,
+                name: "狗蛋 ",
+                age: 18
+            }, {
+                id: 2,
+                name: "梁憨憨 ",
+                age: 30
+            }, {
+                id: 3,
+                name: "二狗子 ",
+                age: 20
+            }],
+            checkboxIds: []
+        },
+
+        computed: {
+            checkedAll: {
+                get() { // 下面三个复选框全部勾选了 => 全选框要勾选，只要一个不勾选，全选框不勾选
+                    return this.lists.length == this.checkboxIds.length
+                },
+                set(value) {
+                    console.log(value);
+                    // 根据 value 来修改依赖项 checkedIds
+                    // true     checkedIds    就要是  list 中每一项 id
+                    // false    checkedIds    清空，设置为一个空数组即可
+
+                    if (!!value) {
+                        // [{ id: 1},{ id: 2},{ id: 3}]  => [1, 2, 3]   map
+
+                        this.checkboxIds = this.lists.map(item => {
+                            return item.id
+                        });
+                    } else {
+                        this.checkboxIds = [];
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+</html>

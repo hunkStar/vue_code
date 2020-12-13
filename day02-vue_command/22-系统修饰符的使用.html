@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <!-- 系统修饰符 -->
+        <!-- ctrl、shift、alt、meta(系统按钮) -->
+        <button @click.ctrl="handleCtrlClick">点击同时按下 ctrl</button>
+        <button @click.shift="handleShiftClick">点击同时按下 shift</button>
+
+        <!-- 注意：以上2个都是按住相应的系统键会触发，但是不精准
+        举例：@click.ctrl，只要按住了"Ctrl+点击"就能触发，但是我其他手指同时还按住了其他键，
+        也可以触发，比如在@click.ctrl事件中，我按住了Ctrl，同时还按住了shift键、alt键点击
+        也可以触发。
+        所以，要加上一个.exact修饰符，用来精准判断 -->
+        <button @click.alt.exact="handleAltClick">点击同时按下 alt</button>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el: "#app",
+        data: {
+            msg: "(*^_^*)"
+        },
+        methods: {
+            handleCtrlClick: function() {
+                console.log('点击同时按下 ctrl');
+            },
+            handleShiftClick: function() {
+                console.log('点击同时按下 shift');
+            },
+            handleAltClick: function() {
+                console.log('点击同时按下 Alt');
+            }
+        },
+    })
+</script>
+
+</html>

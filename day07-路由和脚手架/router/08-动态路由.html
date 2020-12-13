@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+      一、动态路由：
+        路由规则中path选项的值形如 /home/:xxxx/:yyyy 这种的就是动态路由
+
+        app.get('/posts/:id')
+
+      二、动态路由的使用场景：一般是在详情页面的时候
+
+      
+      三、需求1：做一个详情页面出来
+        1. 先提供一个详情页面的路由页面组件出来
+        2. 考虑url地址如何匹配的问题
+          /detail/:id
+
+      四、需求2：详情页面中要显示当前的商品名字显示出来
+        1. 详情页面组件中先获取到当前的商品id
+
+          通过 $route 的数据
+
+          $route 是使用了路由插件之后，路由给当前的所有组件的data选项中注入了一个
+
+                  $route 对象，这个对象代表着当前匹配的路由信息对象。这个对象中有
+                  很多的属性：
+
+                  - path      路由路径
+                  - query     当前路由的？号传递过来的参数，是个对象。类似express中 req.query 获取的东西
+                  - params    当前路由的动态参数的传递，是个对象。   类似express中 req.params 获取的东西
+                  - fullPath  当前路由的一个完整路径，包含有？号参数的
+                  - meta      当前路由的元信息。是个对象。
+                              是一开始定义路由规则的时候在 meta 配置中设置的内容
+
+
+
+        2. 根据商品id去请求对应商品的详情接口
+
+      五、需求3：在详情页面提供一个猜你喜欢的商品窗口
+          bug，发现页面数据没有更新的问题
+
+          bug产生的原因：类似 /detail/3 => /detail/1 的时候，也可以说从a商品详情页去到b商品详情页的时候。
+                      vue路由发现你只是动态路由参数变了。这时vue为了高效。将详情页的路由页面组件给复用了。
+                      复用导致的问题，就是不销毁也不会重建。由于不会重建所以没有触发  created 中的请求。
+
+          bug的解决方案：
+
+            方案一、监听 $route 当前匹配的路由信息对象
+            方案二、使用 路由守卫 beforeRouteUpdate()
+     -->
+
+    <div id="app">
+        <router-view></router-view>
+        <hr />
+
+        <ul>
+            <li>
+                <router-link to="/home">home</router-link>
+            </li>
+            <li>
+                <router-link to="/list">list</router-link>
+            </li>
+            <li>
+                <router-link to="/about">about</router-link>
+            </li>
+        </ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-router@3.1.6/dist/vue-router.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.min.js"></script>
+    <script src="./views/home.js"></script>
+    <script src="./views/list.js"></script>
+    <script src="./views/about.js"></script>
+    <script src="./views/detail.js"></script>
+    <script>
+        // 实例化路由的实例对象
+        const router = new VueRouter({
+            // 路由规则
+            routes: [{
+                path: "/",
+                // 重定向，值设置为一个要重定向到的路径
+                redirect: "/home",
+            }, {
+                path: "/home",
+                component: home,
+            }, {
+                path: "/list",
+                component: list,
+            }, {
+                path: "/about",
+                component: about,
+            }, {
+                path: "/detail/:id",
+                component: detail,
+
+                // 元信息
+                meta: {
+                    a: "1",
+                    b: "2",
+                },
+            }, ],
+        });
+
+        // . 在 new Vue() 时，配置 router 选项，选项值就是 路由实例对象
+        var vm = new Vue({
+            el: "#app",
+            router,
+        });
+    </script>
+</body>
+
+</html>
